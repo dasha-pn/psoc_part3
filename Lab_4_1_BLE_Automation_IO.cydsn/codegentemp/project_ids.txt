@@ -1,0 +1,7 @@
+D:\PSoc\PSoC Creator\4.4\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|d9f5f64e-061b-46fd-9be8-a25c077a6c6e
+C:\Users\Lenovo\Documents\PSoC Creator\4.4\Downloads ( 4.4).cylib\Downloads ( 4.4).cyprj|e722d54c-1cfb-4836-94c9-625057313a34
+D:\PSoc\PSoC Creator\4.4\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|3871609d-40df-4122-9047-fbb420762235
+D:\PSoc\PSoC Creator\4.4\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|830fec03-564e-400e-88e6-7eb232c798a9
+D:\PSoc\PSoC Creator\4.4\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|5a0d94c0-5d00-4929-a5fc-db4447ade3f9
+D:\PSoc\PSoC Creator\4.4\PSoC Creator\psoc\content\default\CyReferenceLibrary\CyReferenceLibrary.cylib\CyReferenceLibrary.cyprj|bb891dc5-728c-4ba6-ac52-ae4291586761
+D:\UCU\POC\PSoC_Projects_Embedded\PSoC_LAB4\lab6-psoc-3-shevchuk-lykhanskyi\Lab_4_1_BLE_Automation_IO.cydsn\Lab_4_1_BLE_Automation_IO.cyprj|4aeed4b2-511c-4280-a87e-471289acca17

@@ -1,0 +1,2095 @@
+ARM GAS  C:\Users\Lenovo\AppData\Local\Temp\ccUVVWR9.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m0
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"CapSense_Centroid_LL.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.CapSense_DpFindLocalMaxSd,"ax",%progbits
+  20              		.align	2
+  21              		.global	CapSense_DpFindLocalMaxSd
+  22              		.code	16
+  23              		.thumb_func
+  24              		.type	CapSense_DpFindLocalMaxSd, %function
+  25              	CapSense_DpFindLocalMaxSd:
+  26              	.LFB2:
+  27              		.file 1 "Generated_Source\\PSoC4\\CapSense_Centroid_LL.c"
+   1:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** /***************************************************************************//**
+   2:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * \file CapSense_Centroid_LL.c
+   3:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * \version 4.0
+   4:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *
+   5:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * \brief
+   6:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * This file provides the source code for the centroid calculation methods
+   7:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * of the Component.
+   8:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *
+   9:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * \see CapSense P4 v4.0 Datasheet
+  10:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * 
+  11:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *//*****************************************************************************
+  12:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * Copyright (2016-2017), Cypress Semiconductor Corporation.
+  13:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** ********************************************************************************
+  14:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * This software is owned by Cypress Semiconductor Corporation (Cypress) and is
+  15:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * protected by and subject to worldwide patent protection (United States and
+  16:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * foreign), United States copyright laws and international treaty provisions.
+  17:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * Cypress hereby grants to licensee a personal, non-exclusive, non-transferable
+  18:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * license to copy, use, modify, create derivative works of, and compile the
+  19:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * Cypress Source Code and derivative works for the sole purpose of creating
+  20:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * custom software in support of licensee product to be used only in conjunction
+  21:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * with a Cypress integrated circuit as specified in the applicable agreement.
+  22:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * Any reproduction, modification, translation, compilation, or representation of
+  23:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * this software except as specified above is prohibited without the express
+  24:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * written permission of Cypress.
+  25:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *
+  26:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * Disclaimer: CYPRESS MAKES NO WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, WITH
+  27:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * REGARD TO THIS MATERIAL, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+  28:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+  29:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * Cypress reserves the right to make changes without further notice to the
+  30:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * materials described herein. Cypress does not assume any liability arising out
+ARM GAS  C:\Users\Lenovo\AppData\Local\Temp\ccUVVWR9.s 			page 2
+
+
+  31:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * of the application or use of any product or circuit described herein. Cypress
+  32:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * does not authorize its products for use as critical components in life-support
+  33:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * systems where a malfunction or failure may reasonably be expected to result in
+  34:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * significant injury to the user. The inclusion of Cypress' product in a life-
+  35:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * support systems application implies that the manufacturer assumes all risk of
+  36:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * such use and in doing so indemnifies Cypress against all charges. Use may be
+  37:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * limited by and subject to the applicable Cypress software license agreement.
+  38:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *******************************************************************************/
+  39:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 
+  40:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** #include "cytypes.h"
+  41:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** #include "CyLib.h"
+  42:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** #include "CapSense_Centroid_LL.h"
+  43:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** #include "CapSense_Configuration.h"
+  44:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** #include "CapSense_Structure.h"
+  45:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** #include "CapSense_Filter.h"
+  46:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 
+  47:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** /*******************************************************************************
+  48:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * Local definition
+  49:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *******************************************************************************/
+  50:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** #if CapSense_CSX_TOUCHPAD_WIDGET_EN
+  51:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     #define CapSense_CSX_TOUCHPAD_BUFFER_SIZE \
+  52:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             (((CapSense_CSX_MAX_LOCAL_PEAKS + 3u) * sizeof(int8)) +                                
+  53:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             (CapSense_CSX_MAX_LOCAL_PEAKS * CapSense_CSX_MAX_LOCAL_PEAKS * sizeof(int32)) + /* dist
+  54:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             (CapSense_CSX_MAX_LOCAL_PEAKS * sizeof(int32)) +                                       
+  55:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             (CapSense_CSX_MAX_LOCAL_PEAKS * sizeof(int8)) +                                        
+  56:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             (CapSense_CSX_MAX_LOCAL_PEAKS * sizeof(int8)) +                                        
+  57:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             (CapSense_CSX_MAX_LOCAL_PEAKS * sizeof(int8)))                                         
+  58:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 
+  59:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     #define CapSense_CSX_TOUCHPAD_FT_ON_FAIL                (0x81u)
+  60:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     #define CapSense_CSX_TOUCHPAD_TOUCH_ABSENT_ID           (0x82u)
+  61:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     #define CapSense_CSX_TOUCHPAD_DEBOUNCE_ENABLE           (0u)
+  62:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     #define CapSense_CSX_TOUCHPAD_TOUCH_MIN_ID              (0u)
+  63:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     #define CapSense_CSX_TOUCHPAD_TOUCH_MAX_ID              (CapSense_CSX_MAX_LOCAL_PEAKS - 1u)
+  64:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     #define CapSense_CSX_TOUCHPAD_INT32                     (0x7FFFFFFFu)
+  65:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     #define CapSense_CSX_TOUCHPAD_TOUCH_DOWN                (0x80u)
+  66:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     #define CapSense_CSX_TOUCHPAD_LIFT_OFF                  (0x40u)
+  67:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     #define CapSense_CSX_TOUCHPAD_DEBOUNCE_MASK             (0x3Fu)
+  68:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     #define CapSense_CSX_TOUCHPAD_POSITION_FILTER_EN        \
+  69:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                 (CapSense_POS_IIR_FILTER_EN                     || \
+  70:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                  CapSense_CSX_TOUCHPAD_POS_MEDIAN_FILTER_EN     || \
+  71:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                  CapSense_POS_AVERAGE_FILTER_EN                 || \
+  72:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                  CapSense_POS_JITTER_FILTER_EN)
+  73:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     #define CapSense_CSX_TOUCHPAD_POSITION_NONE             (0xFFFFu)
+  74:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     #define CapSense_CSX_TOUCHPAD_Z_SHIFT                   (0x04u)
+  75:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     #define CapSense_CSX_TOUCHPAD_PADDING                   (3Lu)
+  76:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     #define CapSense_CSX_TOUCHPAD_CENTROID_LENGTH           (3u)
+  77:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     #define CapSense_CSX_TOUCHPAD_CENTROID_PREVIOUS         (0u)
+  78:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     #define CapSense_CSX_TOUCHPAD_CENTROID_CENTER           (1u)
+  79:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     #define CapSense_CSX_TOUCHPAD_CENTROID_NEXT             (2u)
+  80:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 
+  81:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** #endif /* CapSense_CSX_TOUCHPAD_WIDGET_EN */
+  82:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 
+  83:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** /*******************************************************************************
+  84:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * Static variables definition
+  85:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *******************************************************************************/
+  86:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** #if ((CapSense_ENABLE == CapSense_CSD_TOUCHPAD_WIDGET_EN) || \
+  87:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****      (CapSense_ENABLE  == CapSense_SLIDER_WIDGET_EN)) 
+ARM GAS  C:\Users\Lenovo\AppData\Local\Temp\ccUVVWR9.s 			page 3
+
+
+  88:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     static uint8 localMax[CapSense_NUM_CENTROIDS];
+  89:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     static CapSense_THRESHOLD_TYPE localDiffArray[CapSense_NUM_CENTROIDS][3u];
+  90:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     static uint8 localMaxIndex;
+  91:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** #endif
+  92:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     
+  93:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** #if ( 0u !=CapSense_CSX_TOUCHPAD_WIDGET_EN)    
+  94:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     static CapSense_CSX_TOUCHPAD_DATA_STRUCT newTouches;
+  95:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     static CapSense_CSX_TOUCHPAD_DATA_STRUCT *ptrNewTouches = &newTouches;
+  96:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     static uint8 newActiveIDs = 0u;
+  97:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     static uint8 oldActiveIDs = 0u;
+  98:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 
+  99:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     typedef int32 CapSense_CSX_TOUCHPAD_DISTANCE_MAP[CapSense_CSX_MAX_LOCAL_PEAKS];
+ 100:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** #endif /* ( 0u !=CapSense_CSX_TOUCHPAD_WIDGET_EN) */
+ 101:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 
+ 102:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** /*******************************************************************************
+ 103:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * API Prototypes
+ 104:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *******************************************************************************/
+ 105:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** #if (((CapSense_ENABLE == CapSense_CSD_TOUCHPAD_WIDGET_EN) || \
+ 106:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****       (CapSense_ENABLE  == CapSense_SLIDER_WIDGET_EN)) && \
+ 107:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****       (CapSense_ENABLE == CapSense_4PTS_LOCAL_MAX_EN))
+ 108:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** static void CapSense_SaveLocalMax(CapSense_RAM_SNS_STRUCT ptrSns[],
+ 109:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                                           uint32 snsCount, uint32 fingerThreshold, uint32 snsIndex)
+ 110:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** #endif
+ 111:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 
+ 112:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** #if (0u !=CapSense_CSX_TOUCHPAD_WIDGET_EN)
+ 113:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     CY_INLINE static void CapSense_TransferTouch(uint32 newIndex, uint32 oldIndex, CapSense_CSX_TOU
+ 114:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     static void CapSense_NewTouch(uint32 newIndex, uint8 onDebounce, uint16 fingerOnThreshold);
+ 115:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     CY_INLINE static uint8 CapSense_GetLowestId(uint16 idMask);
+ 116:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     CY_INLINE static uint32 CapSense_CalcDistance(uint32 newIndex, uint32 oldIndex, CapSense_CSX_TO
+ 117:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     static void CapSense_Hungarian(uint8 rowCount, uint8 colCount, int8 *fingerPosIndex,
+ 118:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                                            CapSense_CSX_TOUCHPAD_DISTANCE_MAP *distanceMap);
+ 119:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     static void CapSense_FillDistanceMap(CapSense_CSX_TOUCHPAD_DISTANCE_MAP *distanceMap, 
+ 120:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                                                  CapSense_CSX_TOUCHPAD_DATA_STRUCT *ptrOldTouches);
+ 121:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     CY_INLINE static void CapSense_TouchDownDebounce(void);
+ 122:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     CY_INLINE static void CapSense_SortByAge(void);
+ 123:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     CY_INLINE static void CapSense_CopyTouchRecord(CapSense_CSX_TOUCHPAD_PEAK_STRUCT *destination, 
+ 124:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                                                            CapSense_CSX_TOUCHPAD_PEAK_STRUCT *sourc
+ 125:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     #if (0u != CapSense_OFF_DEBOUNCE_EN)
+ 126:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     CY_INLINE static void CapSense_LiftOffDebounce(uint8 offDebounce, 
+ 127:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                                                            CapSense_CSX_TOUCHPAD_DATA_STRUCT *ptrOl
+ 128:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     #endif /* (0u != CapSense_OFF_DEBOUNCE_EN) */     
+ 129:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** #endif /* (0u !=CapSense_CSX_TOUCHPAD_WIDGET_EN) */
+ 130:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 
+ 131:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** #if ((CapSense_ENABLE == CapSense_CSD_TOUCHPAD_WIDGET_EN) || \
+ 132:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****      (CapSense_ENABLE  == CapSense_SLIDER_WIDGET_EN)) 
+ 133:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** #if (CapSense_ENABLE == CapSense_4PTS_LOCAL_MAX_EN)
+ 134:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** /*******************************************************************************
+ 135:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * Function Name: CapSense_DpFindLocalMaxSd4pts
+ 136:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** ****************************************************************************//**
+ 137:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *
+ 138:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * \brief
+ 139:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *   Finds the maximum in the widget differences and prepares array with maximum difference
+ 140:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *   and it's neighbour differences in Legacy mode (only one touch can be found).
+ 141:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *   Finds the maxima in the widget differences and prepares arrays with maxima difference
+ 142:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *   and theirs neighbour differences in Multi-Touch mode (maximum three touches can be found).
+ 143:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *   This API is used in conjunction with CapSense_DpCalcLinearCentroid or
+ 144:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *   CapSense__DpCalcRadialCentroid, because they use shared static data: localMax[],
+ARM GAS  C:\Users\Lenovo\AppData\Local\Temp\ccUVVWR9.s 			page 4
+
+
+ 145:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *   localDiffArray[][3u], localMaxIndex.
+ 146:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *
+ 147:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * \details
+ 148:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *   The localMax[] is used to store the index of the maximum/maxima.
+ 149:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *   The localDiffArray[][] is used to store values of the maximum/maxima and neighbour differences.
+ 150:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *   The localMaxIndex is used to store the number of maxima have been actually found.
+ 151:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *   The used finding method checks for 4 points : current, next, previous and before previous 
+ 152:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *   sensor's position. Depends on these points differences it chooses the previous or before
+ 153:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *   previous position. For radial sliders an closed character of a widget is taken into the account
+ 154:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *
+ 155:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * \param ptrFlashWdgt 
+ 156:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *   The pointer to the the widget flash structure.
+ 157:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *
+ 158:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * \param ptrSns 
+ 159:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *   The pointer to the the first sensor.
+ 160:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *
+ 161:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * \param snsCount 
+ 162:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *   The total sensor number in the widget.
+ 163:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * 
+ 164:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * \param fingerThreshold 
+ 165:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *   The finger threshold in the widget.
+ 166:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *
+ 167:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * \return Returns the number of maxima found.
+ 168:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *
+ 169:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *******************************************************************************/
+ 170:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** uint32 CapSense_DpFindLocalMaxSd4pts(CapSense_FLASH_WD_STRUCT const *ptrFlashWdgt,
+ 171:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                                               CapSense_RAM_SNS_STRUCT ptrSns[],
+ 172:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                                               uint32 snsCount, uint32 fingerThreshold)
+ 173:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** {
+ 174:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     uint32 i;
+ 175:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 	CapSense_RAM_SNS_STRUCT *localPtrSns = ptrSns;
+ 176:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 	localMaxIndex = 0u;
+ 177:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 	int32 slope0 = 0;
+ 178:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 	int32 slope1 = (int32)localPtrSns[0].diff;
+ 179:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 	int32 slope2 = 0;
+ 180:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     int32 slopeLast = -(int32)localPtrSns[snsCount - 1u].diff;
+ 181:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     
+ 182:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 	#if (0u != CapSense_TOTAL_RADIAL_SLIDERS)
+ 183:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 		if ((CapSense_WD_TYPE_ENUM)ptrFlashWdgt->wdgtType == CapSense_WD_RADIAL_SLIDER_E)
+ 184:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 		{
+ 185:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         slope1 = (int32)localPtrSns[0].diff - (int32)localPtrSns[snsCount - 1u].diff;
+ 186:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         slope2 = (int32)localPtrSns[snsCount - 1u].diff - (int32)localPtrSns[snsCount - 2u].diff;
+ 187:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         slopeLast = slope1;
+ 188:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 		}
+ 189:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 	#else /* #if (0u != CapSense_TOTAL_RADIAL_SLIDERS) */
+ 190:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         /* Typecast the parameter to avoid a compiler warning */
+ 191:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         (void) ptrFlashWdgt;
+ 192:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     #endif /* #if (0u != CapSense_TOTAL_RADIAL_SLIDERS) */
+ 193:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 		
+ 194:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 	/* Search local maxima for sensorId from 0 to snsCount - 1 */
+ 195:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 	for (i = 0uL; i < snsCount; i++ )
+ 196:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 	{
+ 197:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         /* Check for the last sensor */
+ 198:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 		if ((snsCount - 1uL) == i)
+ 199:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 		{
+ 200:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 			slope0 = slopeLast;
+ 201:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         }    
+ARM GAS  C:\Users\Lenovo\AppData\Local\Temp\ccUVVWR9.s 			page 5
+
+
+ 202:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         else
+ 203:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         {
+ 204:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             slope0 = (int32)localPtrSns[i + 1u].diff - (int32)localPtrSns[i].diff;
+ 205:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         }
+ 206:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         
+ 207:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 		if(0 > slope0)
+ 208:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 		{
+ 209:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 			if(0 < slope1)
+ 210:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 			{
+ 211:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 				CapSense_SaveLocalMax(ptrSns, snsCount, fingerThreshold, i);
+ 212:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 			}	
+ 213:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 			else
+ 214:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             {
+ 215:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                 if(0 == slope1)
+ 216:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     			{
+ 217:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                     if(0 == slope2)
+ 218:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                     {
+ 219:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                         CapSense_SaveLocalMax(ptrSns, snsCount, fingerThreshold, (i - 1uL));
+ 220:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                     }
+ 221:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                     else 
+ 222:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                     {
+ 223:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                         if (0 < slope2)
+ 224:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         				{
+ 225:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         					if (slope2 > (-slope0))
+ 226:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         					{
+ 227:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         						CapSense_SaveLocalMax(ptrSns, snsCount, fingerThreshold, i);
+ 228:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         					}
+ 229:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         					else
+ 230:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         					{
+ 231:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         						CapSense_SaveLocalMax(ptrSns, snsCount, fingerThreshold, (i - 1uL));
+ 232:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         					}
+ 233:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         				}
+ 234:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                     }
+ 235:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     			}
+ 236:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             }
+ 237:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 			if (localMaxIndex >= CapSense_NUM_CENTROIDS)
+ 238:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 			{
+ 239:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 				break;
+ 240:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 			}
+ 241:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 		}
+ 242:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         slope2 = slope1;
+ 243:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         slope1 = slope0;
+ 244:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     }
+ 245:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     
+ 246:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     return (uint32)(localMaxIndex);
+ 247:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** }
+ 248:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 
+ 249:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** /*******************************************************************************
+ 250:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * Function Name: CapSense_SaveLocalMax
+ 251:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** ****************************************************************************//**
+ 252:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *
+ 253:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * \brief
+ 254:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *   Stores a found local maximum in the arrays.
+ 255:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *
+ 256:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * \details
+ 257:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *   Stores a found local maximum in the localMax array if the difference is greater
+ 258:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *   than a finger threshold. Prepares arrays with maximum neighbour differences for
+ARM GAS  C:\Users\Lenovo\AppData\Local\Temp\ccUVVWR9.s 			page 6
+
+
+ 259:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *   position calculations.
+ 260:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *
+ 261:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * \param *ptrSns      
+ 262:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *   A pointer to sensor RAM structure of a found local maximum.
+ 263:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *
+ 264:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * \param snsCount 
+ 265:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *   The total sensor number in the widget.
+ 266:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * 
+ 267:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * \param fingerThreshold      
+ 268:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *   A fingerThreshold to compare with a sensor difference.
+ 269:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *
+ 270:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * \param snsIndex      
+ 271:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *   An index of a sensor with a found local maximum.
+ 272:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *
+ 273:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *******************************************************************************/
+ 274:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** static void CapSense_SaveLocalMax(CapSense_RAM_SNS_STRUCT ptrSns[],
+ 275:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                                                     uint32 snsCount, uint32 fingerThreshold, uint32
+ 276:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** {   
+ 277:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     CapSense_THRESHOLD_TYPE currentDiff = ptrSns[snsIndex].diff;
+ 278:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     
+ 279:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 	if (currentDiff > fingerThreshold)
+ 280:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 	{
+ 281:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 		/* Store found Peak */
+ 282:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 		localMax[localMaxIndex] = (uint8)snsIndex;        
+ 283:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         localDiffArray[localMaxIndex][CapSense_CENTROID_POS] = currentDiff;
+ 284:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 
+ 285:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         /* Store neighbour differences */
+ 286:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         if (snsIndex == 0u)
+ 287:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         {
+ 288:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             localDiffArray[localMaxIndex][CapSense_CENTROID_POS_PREV] = ptrSns[snsCount - 1u].diff;
+ 289:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             localDiffArray[localMaxIndex][CapSense_CENTROID_POS_NEXT] = ptrSns[snsIndex + 1u].diff;
+ 290:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         }
+ 291:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         else if (snsIndex == (snsCount - 1u))
+ 292:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         {
+ 293:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             localDiffArray[localMaxIndex][CapSense_CENTROID_POS_PREV] = ptrSns[snsIndex - 1u].diff;
+ 294:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             localDiffArray[localMaxIndex][CapSense_CENTROID_POS_NEXT] = ptrSns[0u].diff;
+ 295:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         }
+ 296:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         else
+ 297:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         {
+ 298:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             localDiffArray[localMaxIndex][CapSense_CENTROID_POS_PREV] = ptrSns[snsIndex - 1u].diff;
+ 299:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             localDiffArray[localMaxIndex][CapSense_CENTROID_POS_NEXT] = ptrSns[snsIndex + 1u].diff;
+ 300:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         }
+ 301:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         
+ 302:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         localMaxIndex++;
+ 303:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 	}
+ 304:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** }
+ 305:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** #else /* (CapSense_ENABLE == CapSense_4PTS_LOCAL_MAX_EN) */
+ 306:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     
+ 307:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** /*******************************************************************************
+ 308:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * Function Name: CapSense_DpFindLocalMaxSd
+ 309:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** ****************************************************************************//**
+ 310:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *
+ 311:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * \brief
+ 312:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *   Finds the maximum in the widget differences and prepares array with maximum difference 
+ 313:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *   and it's neighbour differences in Legacy mode (only one touch can be found).
+ 314:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *   Finds the maxima in the widget differences and prepares arrays with maxima difference 
+ 315:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *   and theirs neighbour differences in Multi-Touch mode (maximum three touches can be found).
+ARM GAS  C:\Users\Lenovo\AppData\Local\Temp\ccUVVWR9.s 			page 7
+
+
+ 316:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *   This API is used in conjunction with CapSense_DpCalcLinearCentroid or 
+ 317:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *   CapSense__DpCalcRadialCentroid, because they use shared static data: localMax[], 
+ 318:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *   localDiffArray[][3u], localMaxIndex.
+ 319:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *
+ 320:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * \details
+ 321:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *   The localMax[] is used to store the index of the maximum/maxima.
+ 322:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *   The localDiffArray[][] is used to store values of the maximum/maxima and neighbour differences.
+ 323:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *   The localMaxIndex is used to store the number of maxima have been actually found.
+ 324:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *
+ 325:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * \param ptrSns The pointer to the first sensor.
+ 326:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * \param snsCount The total sensor number in the widget.
+ 327:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * \param fingerThreshold The finger threshold in the widget.
+ 328:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *
+ 329:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * \return Returns the number of maxima found.
+ 330:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *
+ 331:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *******************************************************************************/    
+ 332:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** uint32 CapSense_DpFindLocalMaxSd(CapSense_RAM_SNS_STRUCT ptrSns[], uint32 snsCount, 
+ 333:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                                                                                    uint32 fingerThr
+ 334:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** {
+  28              		.loc 1 334 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              	.LVL0:
+  33 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+  34              		.cfi_def_cfa_offset 20
+  35              		.cfi_offset 4, -20
+  36              		.cfi_offset 5, -16
+  37              		.cfi_offset 6, -12
+  38              		.cfi_offset 7, -8
+  39              		.cfi_offset 14, -4
+  40              	.LVL1:
+ 335:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     uint32 i;
+ 336:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     uint32 sensorId;
+ 337:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     
+ 338:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     #if (CapSense_NUM_CENTROIDS == 0x01u)
+ 339:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         CapSense_RAM_SNS_STRUCT *localPtrSns = ptrSns;   
+ 340:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         CapSense_THRESHOLD_TYPE temp = 0u;
+ 341:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     #endif /* (CapSense_NUM_CENTROIDS == 0x01u) */
+ 342:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     
+ 343:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     localMaxIndex = 0u;
+  41              		.loc 1 343 0
+  42 0002 0024     		movs	r4, #0
+  43 0004 324B     		ldr	r3, .L12
+  44 0006 1C70     		strb	r4, [r3]
+  45              	.LVL2:
+ 339:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         CapSense_THRESHOLD_TYPE temp = 0u;
+  46              		.loc 1 339 0
+  47 0008 0400     		movs	r4, r0
+ 340:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     #endif /* (CapSense_NUM_CENTROIDS == 0x01u) */
+  48              		.loc 1 340 0
+  49 000a 0026     		movs	r6, #0
+ 344:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     
+ 345:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     #if (CapSense_NUM_CENTROIDS == 0x01u)
+ 346:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         
+ 347:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         for (sensorId = 0u; sensorId < snsCount; sensorId++)
+  50              		.loc 1 347 0
+ARM GAS  C:\Users\Lenovo\AppData\Local\Temp\ccUVVWR9.s 			page 8
+
+
+  51 000c 0023     		movs	r3, #0
+  52 000e 0BE0     		b	.L2
+  53              	.LVL3:
+  54              	.L4:
+ 348:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         {                      
+ 349:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             if ((localPtrSns->diff > fingerThreshold) && (localPtrSns->diff > temp))
+  55              		.loc 1 349 0
+  56 0010 E588     		ldrh	r5, [r4, #6]
+  57 0012 9542     		cmp	r5, r2
+  58 0014 06D9     		bls	.L3
+  59              		.loc 1 349 0 is_stmt 0 discriminator 1
+  60 0016 AE42     		cmp	r6, r5
+  61 0018 04D2     		bcs	.L3
+ 350:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             {
+ 351:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                 localMax[0u] = LO8(sensorId);
+  62              		.loc 1 351 0 is_stmt 1
+  63 001a 2D4E     		ldr	r6, .L12
+  64              	.LVL4:
+  65 001c 3371     		strb	r3, [r6, #4]
+  66              	.LVL5:
+ 352:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                 temp = localPtrSns->diff;
+ 353:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                 localMaxIndex = 1u;
+  67              		.loc 1 353 0
+  68 001e 0127     		movs	r7, #1
+  69 0020 3770     		strb	r7, [r6]
+ 352:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                 temp = localPtrSns->diff;
+  70              		.loc 1 352 0
+  71 0022 2E00     		movs	r6, r5
+  72              	.LVL6:
+  73              	.L3:
+ 354:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             }
+ 355:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             localPtrSns++;
+  74              		.loc 1 355 0 discriminator 2
+  75 0024 0A34     		adds	r4, r4, #10
+  76              	.LVL7:
+ 347:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         {                      
+  77              		.loc 1 347 0 discriminator 2
+  78 0026 0133     		adds	r3, r3, #1
+  79              	.LVL8:
+  80              	.L2:
+ 347:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         {                      
+  81              		.loc 1 347 0 is_stmt 0 discriminator 1
+  82 0028 8B42     		cmp	r3, r1
+  83 002a F1D3     		bcc	.L4
+ 356:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         }
+ 357:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     #else /* (CapSense_NUM_CENTROIDS == 0x01u) */
+ 358:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****        
+ 359:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         if ((ptrSns[0u].diff > fingerThreshold) && (ptrSns[0u].diff >= ptrSns[1u].diff))
+ 360:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         {
+ 361:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             localMax[localMaxIndex] = 0u;
+ 362:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             localMaxIndex = 1u;
+ 363:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         }
+ 364:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 
+ 365:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         if ((ptrSns[snsCount - 1u].diff > fingerThreshold) && (ptrSns[snsCount - 1u].diff > ptrSns[
+ 366:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         {
+ 367:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             localMax[localMaxIndex] = (uint8)(snsCount - 1u);
+ 368:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             localMaxIndex++;
+ARM GAS  C:\Users\Lenovo\AppData\Local\Temp\ccUVVWR9.s 			page 9
+
+
+ 369:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         }
+ 370:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         
+ 371:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         #if (CapSense_NUM_CENTROIDS == 0x02u)
+ 372:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             if (localMaxIndex < CapSense_NUM_CENTROIDS)
+ 373:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             {
+ 374:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         #endif /* (CapSense_NUM_CENTROIDS == 0x02u) */
+ 375:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                 for (sensorId = 1u; sensorId < (snsCount - 1u); sensorId++)
+ 376:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                 {         
+ 377:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                     if ((ptrSns[sensorId].diff > fingerThreshold) && (ptrSns[sensorId].diff >= ptrS
+ 378:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                     {
+ 379:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                         if (ptrSns[sensorId].diff > ptrSns[sensorId - 1u].diff)
+ 380:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                         {   
+ 381:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                             localMax[localMaxIndex] = (uint8)sensorId;
+ 382:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                             localMaxIndex++;
+ 383:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 
+ 384:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                             if (localMaxIndex >= CapSense_NUM_CENTROIDS)
+ 385:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                             {
+ 386:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                                 break;
+ 387:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                             }
+ 388:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                         }
+ 389:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                     }
+ 390:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                 }
+ 391:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         #if (CapSense_NUM_CENTROIDS == 0x02u)
+ 392:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             }
+ 393:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         #endif /* (CapSense_NUM_CENTROIDS == 0x02u) */
+ 394:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     #endif /* #if (CapSense_NUM_CENTROIDS == 0x01u) */        
+ 395:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****    
+ 396:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     if (localMaxIndex != 0u)
+  84              		.loc 1 396 0 is_stmt 1
+  85 002c 284B     		ldr	r3, .L12
+  86              	.LVL9:
+  87 002e 1B78     		ldrb	r3, [r3]
+  88 0030 002B     		cmp	r3, #0
+  89 0032 45D1     		bne	.L11
+  90 0034 49E0     		b	.L6
+  91              	.LVL10:
+  92              	.L10:
+ 397:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     {
+ 398:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         /* Prepare single-dimension centroid calculation array */
+ 399:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         for (i = 0u; i < localMaxIndex; i++)
+ 400:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         {
+ 401:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****              localDiffArray[i][CapSense_CENTROID_POS] = ptrSns[localMax[i]].diff;
+  93              		.loc 1 401 0
+  94 0036 264F     		ldr	r7, .L12
+  95 0038 BB18     		adds	r3, r7, r2
+  96 003a 1B79     		ldrb	r3, [r3, #4]
+  97 003c 9E00     		lsls	r6, r3, #2
+  98 003e F618     		adds	r6, r6, r3
+  99 0040 7400     		lsls	r4, r6, #1
+ 100 0042 0519     		adds	r5, r0, r4
+ 101 0044 ED88     		ldrh	r5, [r5, #6]
+ 102 0046 AC46     		mov	ip, r5
+ 103 0048 5600     		lsls	r6, r2, #1
+ 104 004a B618     		adds	r6, r6, r2
+ 105 004c 7500     		lsls	r5, r6, #1
+ 106 004e 7D19     		adds	r5, r7, r5
+ 107 0050 6646     		mov	r6, ip
+ARM GAS  C:\Users\Lenovo\AppData\Local\Temp\ccUVVWR9.s 			page 10
+
+
+ 108 0052 6E81     		strh	r6, [r5, #10]
+ 402:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 
+ 403:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             if (localMax[i] == 0u)
+ 109              		.loc 1 403 0
+ 110 0054 002B     		cmp	r3, #0
+ 111 0056 12D1     		bne	.L7
+ 404:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             {
+ 405:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                 localDiffArray[i][CapSense_CENTROID_POS_PREV] = ptrSns[snsCount - 1u].diff;
+ 112              		.loc 1 405 0
+ 113 0058 8D00     		lsls	r5, r1, #2
+ 114 005a 6D18     		adds	r5, r5, r1
+ 115 005c 6C00     		lsls	r4, r5, #1
+ 116 005e 0A3C     		subs	r4, r4, #10
+ 117 0060 0419     		adds	r4, r0, r4
+ 118 0062 E688     		ldrh	r6, [r4, #6]
+ 119 0064 5500     		lsls	r5, r2, #1
+ 120 0066 AD18     		adds	r5, r5, r2
+ 121 0068 6C00     		lsls	r4, r5, #1
+ 122 006a 3C19     		adds	r4, r7, r4
+ 123 006c 2681     		strh	r6, [r4, #8]
+ 406:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                 localDiffArray[i][CapSense_CENTROID_POS_NEXT] = ptrSns[localMax[i] + 1u].diff;
+ 124              		.loc 1 406 0
+ 125 006e 0133     		adds	r3, r3, #1
+ 126 0070 9D00     		lsls	r5, r3, #2
+ 127 0072 EB18     		adds	r3, r5, r3
+ 128 0074 5D00     		lsls	r5, r3, #1
+ 129 0076 4519     		adds	r5, r0, r5
+ 130 0078 EB88     		ldrh	r3, [r5, #6]
+ 131 007a A381     		strh	r3, [r4, #12]
+ 132 007c 1EE0     		b	.L8
+ 133              	.L7:
+ 407:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             }
+ 408:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             else if (localMax[i] == (snsCount - 1u))
+ 134              		.loc 1 408 0
+ 135 007e 4D1E     		subs	r5, r1, #1
+ 136 0080 AB42     		cmp	r3, r5
+ 137 0082 0BD1     		bne	.L9
+ 409:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             {
+ 410:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                 localDiffArray[i][CapSense_CENTROID_POS_PREV] = ptrSns[localMax[i] - 1u].diff;
+ 138              		.loc 1 410 0
+ 139 0084 0A3C     		subs	r4, r4, #10
+ 140 0086 0419     		adds	r4, r0, r4
+ 141 0088 E588     		ldrh	r5, [r4, #6]
+ 142 008a 5400     		lsls	r4, r2, #1
+ 143 008c A418     		adds	r4, r4, r2
+ 144 008e 6300     		lsls	r3, r4, #1
+ 145 0090 0F4C     		ldr	r4, .L12
+ 146 0092 E318     		adds	r3, r4, r3
+ 147 0094 1D81     		strh	r5, [r3, #8]
+ 411:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                 localDiffArray[i][CapSense_CENTROID_POS_NEXT] = ptrSns[0u].diff;
+ 148              		.loc 1 411 0
+ 149 0096 C488     		ldrh	r4, [r0, #6]
+ 150 0098 9C81     		strh	r4, [r3, #12]
+ 151 009a 0FE0     		b	.L8
+ 152              	.L9:
+ 412:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             }
+ 413:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             else
+ARM GAS  C:\Users\Lenovo\AppData\Local\Temp\ccUVVWR9.s 			page 11
+
+
+ 414:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             {
+ 415:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                 localDiffArray[i][CapSense_CENTROID_POS_PREV] = ptrSns[localMax[i] - 1u].diff;
+ 153              		.loc 1 415 0
+ 154 009c 0A3C     		subs	r4, r4, #10
+ 155 009e 0419     		adds	r4, r0, r4
+ 156 00a0 E688     		ldrh	r6, [r4, #6]
+ 157 00a2 5500     		lsls	r5, r2, #1
+ 158 00a4 AD18     		adds	r5, r5, r2
+ 159 00a6 6C00     		lsls	r4, r5, #1
+ 160 00a8 094D     		ldr	r5, .L12
+ 161 00aa 2C19     		adds	r4, r5, r4
+ 162 00ac 2681     		strh	r6, [r4, #8]
+ 416:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                 localDiffArray[i][CapSense_CENTROID_POS_NEXT] = ptrSns[localMax[i] + 1u].diff;
+ 163              		.loc 1 416 0
+ 164 00ae 0133     		adds	r3, r3, #1
+ 165 00b0 9D00     		lsls	r5, r3, #2
+ 166 00b2 EB18     		adds	r3, r5, r3
+ 167 00b4 5D00     		lsls	r5, r3, #1
+ 168 00b6 4519     		adds	r5, r0, r5
+ 169 00b8 EB88     		ldrh	r3, [r5, #6]
+ 170 00ba A381     		strh	r3, [r4, #12]
+ 171              	.L8:
+ 399:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         {
+ 172              		.loc 1 399 0 discriminator 2
+ 173 00bc 0132     		adds	r2, r2, #1
+ 174              	.LVL11:
+ 175 00be 00E0     		b	.L5
+ 176              	.LVL12:
+ 177              	.L11:
+ 178 00c0 0022     		movs	r2, #0
+ 179              	.LVL13:
+ 180              	.L5:
+ 399:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         {
+ 181              		.loc 1 399 0 is_stmt 0 discriminator 1
+ 182 00c2 034B     		ldr	r3, .L12
+ 183 00c4 1B78     		ldrb	r3, [r3]
+ 184 00c6 9A42     		cmp	r2, r3
+ 185 00c8 B5D3     		bcc	.L10
+ 186              	.LVL14:
+ 187              	.L6:
+ 417:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             }
+ 418:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         }
+ 419:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     }    
+ 420:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     /* Return status to check if at least one maximum has been found */   
+ 421:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     return (uint32)(localMaxIndex);
+ 188              		.loc 1 421 0 is_stmt 1
+ 189 00ca 014B     		ldr	r3, .L12
+ 190 00cc 1878     		ldrb	r0, [r3]
+ 191              	.LVL15:
+ 422:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** }
+ 192              		.loc 1 422 0
+ 193              		@ sp needed
+ 194 00ce F0BD     		pop	{r4, r5, r6, r7, pc}
+ 195              	.L13:
+ 196              		.align	2
+ 197              	.L12:
+ 198 00d0 00000000 		.word	.LANCHOR0
+ARM GAS  C:\Users\Lenovo\AppData\Local\Temp\ccUVVWR9.s 			page 12
+
+
+ 199              		.cfi_endproc
+ 200              	.LFE2:
+ 201              		.size	CapSense_DpFindLocalMaxSd, .-CapSense_DpFindLocalMaxSd
+ 202              		.global	__aeabi_idiv
+ 203              		.section	.text.CapSense_DpCalcLinearCentroid,"ax",%progbits
+ 204              		.align	2
+ 205              		.global	CapSense_DpCalcLinearCentroid
+ 206              		.code	16
+ 207              		.thumb_func
+ 208              		.type	CapSense_DpCalcLinearCentroid, %function
+ 209              	CapSense_DpCalcLinearCentroid:
+ 210              	.LFB3:
+ 423:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** #endif /* (CapSense_ENABLE == CapSense_4PTS_LOCAL_MAX_EN) */
+ 424:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** #endif /* ((CapSense_ENABLE == CapSense_CSD_TOUCHPAD_WIDGET_EN) || \
+ 425:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****           (CapSense_ENABLE  == CapSense_SLIDER_WIDGET_EN)) */
+ 426:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 
+ 427:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** #if CapSense_TOTAL_DIPLEXED_SLIDERS
+ 428:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** /*******************************************************************************
+ 429:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * Function Name: CapSense_DpFindLocalMaxDiplex
+ 430:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** ****************************************************************************//**
+ 431:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *
+ 432:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * \brief
+ 433:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *   Finds the maximum in the widget differences. Used only for diplexed linear slider. 
+ 434:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *
+ 435:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * \details
+ 436:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *   The localMax[] is used to store the index of the maximum/maxima.
+ 437:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *   The localDiffArray[][] is used to store values of the maximum/maxima and neighbour differences.
+ 438:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *   The localMaxIndex is used to store the number of maxima have been actually found.
+ 439:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *
+ 440:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * \param ptrSns The pointer to the first sensor.
+ 441:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * \param snsCount The total sensor number in the widget.
+ 442:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * \param diplexTable The pointer to the diplex table.
+ 443:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * \param fingerThreshold The finger threshold in the widget.
+ 444:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *
+ 445:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * \return Returns the number of maxima found.
+ 446:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *
+ 447:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *******************************************************************************/
+ 448:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** uint32 CapSense_DpFindLocalMaxDiplex(
+ 449:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                         CapSense_RAM_SNS_STRUCT ptrSns[],
+ 450:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                         uint32 snsCount,
+ 451:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                         uint8 const diplexTable[],
+ 452:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                         uint32 fingerThreshold)
+ 453:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** {
+ 454:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     uint32 sensorId;
+ 455:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     uint32 diplexSensorId;
+ 456:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 
+ 457:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     uint32 biggestStartPos = 0u;
+ 458:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     uint32 biggestSize = 0u;
+ 459:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     uint32 curStartPos = 0u;
+ 460:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     uint32 curSize = 0u;
+ 461:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     CapSense_THRESHOLD_TYPE temp = 0u;
+ 462:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     
+ 463:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     localMaxIndex = 0u;
+ 464:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     
+ 465:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     for (sensorId = 0u; sensorId < (snsCount << 1u); sensorId++)
+ 466:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     {                      
+ 467:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         diplexSensorId = diplexTable[sensorId];
+ARM GAS  C:\Users\Lenovo\AppData\Local\Temp\ccUVVWR9.s 			page 13
+
+
+ 468:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         
+ 469:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         if (ptrSns[diplexSensorId].diff > fingerThreshold) 
+ 470:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         {
+ 471:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             if (0u == curSize)
+ 472:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             {
+ 473:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                 curStartPos = sensorId;
+ 474:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             }
+ 475:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 
+ 476:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             curSize++;
+ 477:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         }
+ 478:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         else
+ 479:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         {
+ 480:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             if (curSize > biggestSize)
+ 481:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             {
+ 482:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                 biggestSize = curSize;
+ 483:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                 biggestStartPos = curStartPos;
+ 484:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             }
+ 485:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             curSize = 0u;
+ 486:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         }
+ 487:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     }
+ 488:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     
+ 489:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     if (curSize > biggestSize)
+ 490:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     {
+ 491:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         biggestSize = curSize;
+ 492:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         biggestStartPos = curStartPos;
+ 493:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     }
+ 494:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 
+ 495:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     if (biggestSize >= CapSense_CENTROID_DIPLEX_SECTION_LENGTH)
+ 496:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     {
+ 497:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         for (sensorId = biggestStartPos; sensorId < (biggestStartPos + biggestSize); sensorId++)
+ 498:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         {
+ 499:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             diplexSensorId = diplexTable[sensorId];
+ 500:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 
+ 501:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             if (ptrSns[diplexSensorId].diff > temp)
+ 502:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             {
+ 503:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                 localMax[0u] = LO8(sensorId);
+ 504:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                 temp = ptrSns[diplexSensorId].diff;
+ 505:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                 localMaxIndex = 1u;
+ 506:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             }
+ 507:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         }
+ 508:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 
+ 509:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         /* Prepare single-dimension centroid calculation array */
+ 510:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         if (localMax[0u] == 0u)
+ 511:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         {
+ 512:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             localDiffArray[0u][CapSense_CENTROID_POS_PREV] = 0u;
+ 513:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             localDiffArray[0u][CapSense_CENTROID_POS] = ptrSns[localMax[0u]].diff;
+ 514:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             localDiffArray[0u][CapSense_CENTROID_POS_NEXT] = ptrSns[localMax[0u] + 1u].diff;
+ 515:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             
+ 516:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         }    
+ 517:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         else if (localMax[0u] == ((snsCount << 1u) - 1u))
+ 518:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         {
+ 519:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             diplexSensorId = diplexTable[localMax[0u] - 1u];
+ 520:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             localDiffArray[0u][CapSense_CENTROID_POS_PREV] = ptrSns[diplexSensorId].diff;
+ 521:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             diplexSensorId = diplexTable[localMax[0u]];
+ 522:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             localDiffArray[0u][CapSense_CENTROID_POS] = ptrSns[diplexSensorId].diff;
+ 523:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             localDiffArray[0u][CapSense_CENTROID_POS_NEXT] = 0u;
+ 524:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         }
+ARM GAS  C:\Users\Lenovo\AppData\Local\Temp\ccUVVWR9.s 			page 14
+
+
+ 525:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         else
+ 526:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         {
+ 527:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             diplexSensorId = diplexTable[localMax[0u] - 1u];
+ 528:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             localDiffArray[0u][CapSense_CENTROID_POS_PREV] = ptrSns[diplexSensorId].diff;
+ 529:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             diplexSensorId = diplexTable[localMax[0u]];
+ 530:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             localDiffArray[0u][CapSense_CENTROID_POS] = ptrSns[diplexSensorId].diff;
+ 531:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             diplexSensorId = diplexTable[localMax[0u] + 1u];
+ 532:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             localDiffArray[0u][CapSense_CENTROID_POS_NEXT] = ptrSns[diplexSensorId].diff;
+ 533:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         }
+ 534:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     } 
+ 535:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 
+ 536:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     return (uint32)(localMaxIndex);
+ 537:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** }
+ 538:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** #endif /* #if CapSense_TOTAL_DIPLEXED_SLIDERS */
+ 539:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 
+ 540:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 
+ 541:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** #if ((0u != CapSense_TOTAL_LINEAR_SLIDERS) || \
+ 542:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****      (CapSense_ENABLE == CapSense_CSD_TOUCHPAD_WIDGET_EN))
+ 543:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** /*******************************************************************************
+ 544:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * Function Name: CapSense_DpCalcLinearCentroid
+ 545:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** ****************************************************************************//**
+ 546:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *
+ 547:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * \brief
+ 548:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *   Calculates the position of the linear slider. 
+ 549:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *
+ 550:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * \details
+ 551:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *   The localMax[] is used to store the index of the maximum/maxima.
+ 552:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *   The localDiffArray[][] is used to store values of the maximum/maxima and neighbour differences.
+ 553:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *   The localMaxIndex is used to store the number of maxima have been actually found.
+ 554:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *
+ 555:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * \param  *position The pointer to the position array for temporal position storage.
+ 556:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * \param multiplier The multiplier used for position calculation. 
+ 557:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *                       Contains the widget resolution and total sensor information. It is generate
+ 558:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * \param snsCount The number of sensors in the linear slider. The doubled snsCount has to be passed
+ 559:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *                       if this API is called for diplexed slider.                       
+ 560:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *
+ 561:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** * \return Returns the number of positions calculated.
+ 562:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *
+ 563:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** *******************************************************************************/
+ 564:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** uint32 CapSense_DpCalcLinearCentroid(uint16 position[], uint32 multiplier, uint32 snsCount)
+ 565:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** {    
+ 211              		.loc 1 565 0
+ 212              		.cfi_startproc
+ 213              		@ args = 0, pretend = 0, frame = 8
+ 214              		@ frame_needed = 0, uses_anonymous_args = 0
+ 215              	.LVL16:
+ 216 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+ 217              		.cfi_def_cfa_offset 20
+ 218              		.cfi_offset 4, -20
+ 219              		.cfi_offset 5, -16
+ 220              		.cfi_offset 6, -12
+ 221              		.cfi_offset 7, -8
+ 222              		.cfi_offset 14, -4
+ 223 0002 4746     		mov	r7, r8
+ 224 0004 80B4     		push	{r7}
+ 225              		.cfi_def_cfa_offset 24
+ 226              		.cfi_offset 8, -24
+ARM GAS  C:\Users\Lenovo\AppData\Local\Temp\ccUVVWR9.s 			page 15
+
+
+ 227 0006 82B0     		sub	sp, sp, #8
+ 228              		.cfi_def_cfa_offset 32
+ 229 0008 8046     		mov	r8, r0
+ 230 000a 0F00     		movs	r7, r1
+ 231 000c 0192     		str	r2, [sp, #4]
+ 232              	.LVL17:
+ 566:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     int32 numerator;
+ 567:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     int32 denominator;
+ 568:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     uint32 i;
+ 569:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 
+ 570:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     for (i = 0u; i < localMaxIndex; i++)
+ 233              		.loc 1 570 0
+ 234 000e 0026     		movs	r6, #0
+ 235 0010 2CE0     		b	.L15
+ 236              	.LVL18:
+ 237              	.L18:
+ 571:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     {
+ 572:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         /* 
+ 573:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****          * The CapSense_DpFindLocalMaxSd API prepares the unified localDiffArray[][] for linear and
+ 574:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****          *  Therefore, the difference of the first and the last elements of linear slider are clear
+ 575:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****          */
+ 576:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         
+ 577:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         if (localMax[i] == 0u)
+ 238              		.loc 1 577 0
+ 239 0012 1A4B     		ldr	r3, .L19
+ 240 0014 9B19     		adds	r3, r3, r6
+ 241 0016 1C79     		ldrb	r4, [r3, #4]
+ 242 0018 002C     		cmp	r4, #0
+ 243 001a 07D1     		bne	.L16
+ 578:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         {
+ 579:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             localDiffArray[i][CapSense_CENTROID_POS_PREV] = 0u;
+ 244              		.loc 1 579 0
+ 245 001c 7200     		lsls	r2, r6, #1
+ 246 001e 9219     		adds	r2, r2, r6
+ 247 0020 5300     		lsls	r3, r2, #1
+ 248 0022 164A     		ldr	r2, .L19
+ 249 0024 D318     		adds	r3, r2, r3
+ 250 0026 0022     		movs	r2, #0
+ 251 0028 1A81     		strh	r2, [r3, #8]
+ 252 002a 0AE0     		b	.L17
+ 253              	.L16:
+ 580:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         }
+ 581:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         else
+ 582:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         {
+ 583:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             if (localMax[i] == (snsCount - 1u))
+ 254              		.loc 1 583 0
+ 255 002c 019B     		ldr	r3, [sp, #4]
+ 256 002e 013B     		subs	r3, r3, #1
+ 257 0030 9C42     		cmp	r4, r3
+ 258 0032 06D1     		bne	.L17
+ 584:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             {
+ 585:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                 localDiffArray[i][CapSense_CENTROID_POS_NEXT] = 0u;
+ 259              		.loc 1 585 0
+ 260 0034 7200     		lsls	r2, r6, #1
+ 261 0036 9219     		adds	r2, r2, r6
+ 262 0038 5300     		lsls	r3, r2, #1
+ 263 003a 104A     		ldr	r2, .L19
+ARM GAS  C:\Users\Lenovo\AppData\Local\Temp\ccUVVWR9.s 			page 16
+
+
+ 264 003c D318     		adds	r3, r2, r3
+ 265 003e 0022     		movs	r2, #0
+ 266 0040 9A81     		strh	r2, [r3, #12]
+ 267              	.L17:
+ 586:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****             }
+ 587:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         }
+ 588:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         
+ 589:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         /* Si+1 - Si-1 */
+ 590:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         numerator = (int32) localDiffArray[i][CapSense_CENTROID_POS_NEXT] -
+ 268              		.loc 1 590 0 discriminator 2
+ 269 0042 7500     		lsls	r5, r6, #1
+ 270 0044 AA19     		adds	r2, r5, r6
+ 271 0046 5300     		lsls	r3, r2, #1
+ 272 0048 0C4A     		ldr	r2, .L19
+ 273 004a D318     		adds	r3, r2, r3
+ 274 004c 9A89     		ldrh	r2, [r3, #12]
+ 591:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                     (int32) localDiffArray[i][CapSense_CENTROID_POS_PREV];
+ 275              		.loc 1 591 0 discriminator 2
+ 276 004e 1989     		ldrh	r1, [r3, #8]
+ 590:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                     (int32) localDiffArray[i][CapSense_CENTROID_POS_PREV];
+ 277              		.loc 1 590 0 discriminator 2
+ 278 0050 501A     		subs	r0, r2, r1
+ 279              	.LVL19:
+ 592:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** 
+ 593:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         /* Si+1 + Si + Si-1 */
+ 594:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         denominator = (int32) localDiffArray[i][CapSense_CENTROID_POS_PREV] + 
+ 595:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                       (int32) localDiffArray[i][CapSense_CENTROID_POS] + 
+ 280              		.loc 1 595 0 discriminator 2
+ 281 0052 5B89     		ldrh	r3, [r3, #10]
+ 594:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                       (int32) localDiffArray[i][CapSense_CENTROID_POS] + 
+ 282              		.loc 1 594 0 discriminator 2
+ 283 0054 C918     		adds	r1, r1, r3
+ 284 0056 5118     		adds	r1, r2, r1
+ 285              	.LVL20:
+ 596:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                       (int32) localDiffArray[i][CapSense_CENTROID_POS_NEXT];    
+ 597:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         
+ 598:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         denominator = ((numerator * (int32)multiplier) / denominator) + 
+ 286              		.loc 1 598 0 discriminator 2
+ 287 0058 7843     		muls	r0, r7
+ 288              	.LVL21:
+ 289 005a FFF7FEFF 		bl	__aeabi_idiv
+ 290              	.LVL22:
+ 599:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                       ((int32)localMax[i] * (int32)multiplier);
+ 291              		.loc 1 599 0 discriminator 2
+ 292 005e 7C43     		muls	r4, r7
+ 598:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****                       ((int32)localMax[i] * (int32)multiplier);
+ 293              		.loc 1 598 0 discriminator 2
+ 294 0060 0019     		adds	r0, r0, r4
+ 295              	.LVL23:
+ 600:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         
+ 601:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         /* Round result and shift 8bits left */
+ 602:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****         position[i] = LO16(((uint32)denominator + CapSense_CENTROID_ROUND_VALUE) >> 8u);
+ 296              		.loc 1 602 0 discriminator 2
+ 297 0062 7F30     		adds	r0, r0, #127
+ 298              	.LVL24:
+ 299 0064 000A     		lsrs	r0, r0, #8
+ 300              	.LVL25:
+ARM GAS  C:\Users\Lenovo\AppData\Local\Temp\ccUVVWR9.s 			page 17
+
+
+ 301 0066 4346     		mov	r3, r8
+ 302 0068 5853     		strh	r0, [r3, r5]
+ 570:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     {
+ 303              		.loc 1 570 0 discriminator 2
+ 304 006a 0136     		adds	r6, r6, #1
+ 305              	.LVL26:
+ 306              	.L15:
+ 570:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     {
+ 307              		.loc 1 570 0 is_stmt 0 discriminator 1
+ 308 006c 034B     		ldr	r3, .L19
+ 309 006e 1878     		ldrb	r0, [r3]
+ 310 0070 8642     		cmp	r6, r0
+ 311 0072 CED3     		bcc	.L18
+ 603:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     }
+ 604:Generated_Source\PSoC4/CapSense_Centroid_LL.c ****     return (uint32)(localMaxIndex);
+ 605:Generated_Source\PSoC4/CapSense_Centroid_LL.c **** }
+ 312              		.loc 1 605 0 is_stmt 1
+ 313 0074 02B0     		add	sp, sp, #8
+ 314              		@ sp needed
+ 315              	.LVL27:
+ 316              	.LVL28:
+ 317              	.LVL29:
+ 318 0076 04BC     		pop	{r2}
+ 319 0078 9046     		mov	r8, r2
+ 320 007a F0BD     		pop	{r4, r5, r6, r7, pc}
+ 321              	.L20:
+ 322              		.align	2
+ 323              	.L19:
+ 324 007c 00000000 		.word	.LANCHOR0
+ 325              		.cfi_endproc
+ 326              	.LFE3:
+ 327              		.size	CapSense_DpCalcLinearCentroid, .-CapSense_DpCalcLinearCentroid
+ 328              		.bss
+ 329              		.align	2
+ 330              		.set	.LANCHOR0,. + 0
+ 331              		.type	localMaxIndex, %object
+ 332              		.size	localMaxIndex, 1
+ 333              	localMaxIndex:
+ 334 0000 00       		.space	1
+ 335 0001 000000   		.space	3
+ 336              		.type	localMax, %object
+ 337              		.size	localMax, 1
+ 338              	localMax:
+ 339 0004 00       		.space	1
+ 340 0005 000000   		.space	3
+ 341              		.type	localDiffArray, %object
+ 342              		.size	localDiffArray, 6
+ 343              	localDiffArray:
+ 344 0008 00000000 		.space	6
+ 344      0000
+ 345              		.text
+ 346              	.Letext0:
+ 347              		.file 2 "Generated_Source\\PSoC4\\cytypes.h"
+ 348              		.file 3 "Generated_Source\\PSoC4\\CapSense_Configuration.h"
+ 349              		.file 4 "Generated_Source\\PSoC4\\CapSense_Structure.h"
+ 350              		.section	.debug_info,"",%progbits
+ 351              	.Ldebug_info0:
+ARM GAS  C:\Users\Lenovo\AppData\Local\Temp\ccUVVWR9.s 			page 18
+
+
+ 352 0000 AD020000 		.4byte	0x2ad
+ 353 0004 0400     		.2byte	0x4
+ 354 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 355 000a 04       		.byte	0x4
+ 356 000b 01       		.uleb128 0x1
+ 357 000c 1A010000 		.4byte	.LASF40
+ 358 0010 0C       		.byte	0xc
+ 359 0011 C0020000 		.4byte	.LASF41
+ 360 0015 0F020000 		.4byte	.LASF42
+ 361 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 362 001d 00000000 		.4byte	0
+ 363 0021 00000000 		.4byte	.Ldebug_line0
+ 364 0025 02       		.uleb128 0x2
+ 365 0026 01       		.byte	0x1
+ 366 0027 06       		.byte	0x6
+ 367 0028 9A020000 		.4byte	.LASF0
+ 368 002c 02       		.uleb128 0x2
+ 369 002d 01       		.byte	0x1
+ 370 002e 08       		.byte	0x8
+ 371 002f 42000000 		.4byte	.LASF1
+ 372 0033 02       		.uleb128 0x2
+ 373 0034 02       		.byte	0x2
+ 374 0035 05       		.byte	0x5
+ 375 0036 FF010000 		.4byte	.LASF2
+ 376 003a 02       		.uleb128 0x2
+ 377 003b 02       		.byte	0x2
+ 378 003c 07       		.byte	0x7
+ 379 003d 20000000 		.4byte	.LASF3
+ 380 0041 02       		.uleb128 0x2
+ 381 0042 04       		.byte	0x4
+ 382 0043 05       		.byte	0x5
+ 383 0044 85020000 		.4byte	.LASF4
+ 384 0048 02       		.uleb128 0x2
+ 385 0049 04       		.byte	0x4
+ 386 004a 07       		.byte	0x7
+ 387 004b 57000000 		.4byte	.LASF5
+ 388 004f 02       		.uleb128 0x2
+ 389 0050 08       		.byte	0x8
+ 390 0051 05       		.byte	0x5
+ 391 0052 B6010000 		.4byte	.LASF6
+ 392 0056 02       		.uleb128 0x2
+ 393 0057 08       		.byte	0x8
+ 394 0058 07       		.byte	0x7
+ 395 0059 DD000000 		.4byte	.LASF7
+ 396 005d 03       		.uleb128 0x3
+ 397 005e 04       		.byte	0x4
+ 398 005f 05       		.byte	0x5
+ 399 0060 696E7400 		.ascii	"int\000"
+ 400 0064 02       		.uleb128 0x2
+ 401 0065 04       		.byte	0x4
+ 402 0066 07       		.byte	0x7
+ 403 0067 BF000000 		.4byte	.LASF8
+ 404 006b 04       		.uleb128 0x4
+ 405 006c 09020000 		.4byte	.LASF9
+ 406 0070 02       		.byte	0x2
+ 407 0071 D201     		.2byte	0x1d2
+ 408 0073 2C000000 		.4byte	0x2c
+ARM GAS  C:\Users\Lenovo\AppData\Local\Temp\ccUVVWR9.s 			page 19
+
+
+ 409 0077 04       		.uleb128 0x4
+ 410 0078 A8000000 		.4byte	.LASF10
+ 411 007c 02       		.byte	0x2
+ 412 007d D301     		.2byte	0x1d3
+ 413 007f 3A000000 		.4byte	0x3a
+ 414 0083 04       		.uleb128 0x4
+ 415 0084 B8000000 		.4byte	.LASF11
+ 416 0088 02       		.byte	0x2
+ 417 0089 D401     		.2byte	0x1d4
+ 418 008b 48000000 		.4byte	0x48
+ 419 008f 04       		.uleb128 0x4
+ 420 0090 72000000 		.4byte	.LASF12
+ 421 0094 02       		.byte	0x2
+ 422 0095 D701     		.2byte	0x1d7
+ 423 0097 41000000 		.4byte	0x41
+ 424 009b 02       		.uleb128 0x2
+ 425 009c 04       		.byte	0x4
+ 426 009d 04       		.byte	0x4
+ 427 009e 3C000000 		.4byte	.LASF13
+ 428 00a2 02       		.uleb128 0x2
+ 429 00a3 08       		.byte	0x8
+ 430 00a4 04       		.byte	0x4
+ 431 00a5 A1000000 		.4byte	.LASF14
+ 432 00a9 02       		.uleb128 0x2
+ 433 00aa 01       		.byte	0x1
+ 434 00ab 08       		.byte	0x8
+ 435 00ac DC010000 		.4byte	.LASF15
+ 436 00b0 02       		.uleb128 0x2
+ 437 00b1 08       		.byte	0x8
+ 438 00b2 04       		.byte	0x4
+ 439 00b3 8E020000 		.4byte	.LASF16
+ 440 00b7 02       		.uleb128 0x2
+ 441 00b8 04       		.byte	0x4
+ 442 00b9 07       		.byte	0x7
+ 443 00ba A8010000 		.4byte	.LASF17
+ 444 00be 05       		.uleb128 0x5
+ 445 00bf 00000000 		.4byte	.LASF18
+ 446 00c3 03       		.byte	0x3
+ 447 00c4 DD       		.byte	0xdd
+ 448 00c5 77000000 		.4byte	0x77
+ 449 00c9 05       		.uleb128 0x5
+ 450 00ca F3020000 		.4byte	.LASF19
+ 451 00ce 03       		.byte	0x3
+ 452 00cf E1       		.byte	0xe1
+ 453 00d0 6B000000 		.4byte	0x6b
+ 454 00d4 06       		.uleb128 0x6
+ 455 00d5 6B000000 		.4byte	0x6b
+ 456 00d9 E4000000 		.4byte	0xe4
+ 457 00dd 07       		.uleb128 0x7
+ 458 00de B7000000 		.4byte	0xb7
+ 459 00e2 00       		.byte	0
+ 460 00e3 00       		.byte	0
+ 461 00e4 06       		.uleb128 0x6
+ 462 00e5 77000000 		.4byte	0x77
+ 463 00e9 F4000000 		.4byte	0xf4
+ 464 00ed 07       		.uleb128 0x7
+ 465 00ee B7000000 		.4byte	0xb7
+ARM GAS  C:\Users\Lenovo\AppData\Local\Temp\ccUVVWR9.s 			page 20
+
+
+ 466 00f2 00       		.byte	0
+ 467 00f3 00       		.byte	0
+ 468 00f4 08       		.uleb128 0x8
+ 469 00f5 0A       		.byte	0xa
+ 470 00f6 04       		.byte	0x4
+ 471 00f7 0E01     		.2byte	0x10e
+ 472 00f9 3F010000 		.4byte	0x13f
+ 473 00fd 09       		.uleb128 0x9
+ 474 00fe 72617700 		.ascii	"raw\000"
+ 475 0102 04       		.byte	0x4
+ 476 0103 1301     		.2byte	0x113
+ 477 0105 E4000000 		.4byte	0xe4
+ 478 0109 00       		.byte	0
+ 479 010a 0A       		.uleb128 0xa
+ 480 010b EE020000 		.4byte	.LASF20
+ 481 010f 04       		.byte	0x4
+ 482 0110 1801     		.2byte	0x118
+ 483 0112 E4000000 		.4byte	0xe4
+ 484 0116 02       		.byte	0x2
+ 485 0117 0A       		.uleb128 0xa
+ 486 0118 18000000 		.4byte	.LASF21
+ 487 011c 04       		.byte	0x4
+ 488 011d 1E01     		.2byte	0x11e
+ 489 011f D4000000 		.4byte	0xd4
+ 490 0123 04       		.byte	0x4
+ 491 0124 0A       		.uleb128 0xa
+ 492 0125 B1010000 		.4byte	.LASF22
+ 493 0129 04       		.byte	0x4
+ 494 012a 2301     		.2byte	0x123
+ 495 012c BE000000 		.4byte	0xbe
+ 496 0130 06       		.byte	0x6
+ 497 0131 0A       		.uleb128 0xa
+ 498 0132 0C010000 		.4byte	.LASF23
+ 499 0136 04       		.byte	0x4
+ 500 0137 2801     		.2byte	0x128
+ 501 0139 3F010000 		.4byte	0x13f
+ 502 013d 08       		.byte	0x8
+ 503 013e 00       		.byte	0
+ 504 013f 06       		.uleb128 0x6
+ 505 0140 C9000000 		.4byte	0xc9
+ 506 0144 4F010000 		.4byte	0x14f
+ 507 0148 07       		.uleb128 0x7
+ 508 0149 B7000000 		.4byte	0xb7
+ 509 014d 00       		.byte	0
+ 510 014e 00       		.byte	0
+ 511 014f 04       		.uleb128 0x4
+ 512 0150 C4010000 		.4byte	.LASF24
+ 513 0154 04       		.byte	0x4
+ 514 0155 2901     		.2byte	0x129
+ 515 0157 F4000000 		.4byte	0xf4
+ 516 015b 0B       		.uleb128 0xb
+ 517 015c 04       		.byte	0x4
+ 518 015d 4F010000 		.4byte	0x14f
+ 519 0161 0C       		.uleb128 0xc
+ 520 0162 A6020000 		.4byte	.LASF31
+ 521 0166 01       		.byte	0x1
+ 522 0167 4C01     		.2byte	0x14c
+ARM GAS  C:\Users\Lenovo\AppData\Local\Temp\ccUVVWR9.s 			page 21
+
+
+ 523 0169 83000000 		.4byte	0x83
+ 524 016d 00000000 		.4byte	.LFB2
+ 525 0171 D4000000 		.4byte	.LFE2-.LFB2
+ 526 0175 01       		.uleb128 0x1
+ 527 0176 9C       		.byte	0x9c
+ 528 0177 E8010000 		.4byte	0x1e8
+ 529 017b 0D       		.uleb128 0xd
+ 530 017c 50000000 		.4byte	.LASF25
+ 531 0180 01       		.byte	0x1
+ 532 0181 4C01     		.2byte	0x14c
+ 533 0183 5B010000 		.4byte	0x15b
+ 534 0187 00000000 		.4byte	.LLST0
+ 535 018b 0E       		.uleb128 0xe
+ 536 018c 33000000 		.4byte	.LASF26
+ 537 0190 01       		.byte	0x1
+ 538 0191 4C01     		.2byte	0x14c
+ 539 0193 83000000 		.4byte	0x83
+ 540 0197 01       		.uleb128 0x1
+ 541 0198 51       		.byte	0x51
+ 542 0199 0D       		.uleb128 0xd
+ 543 019a E1010000 		.4byte	.LASF27
+ 544 019e 01       		.byte	0x1
+ 545 019f 4D01     		.2byte	0x14d
+ 546 01a1 83000000 		.4byte	0x83
+ 547 01a5 21000000 		.4byte	.LLST1
+ 548 01a9 0F       		.uleb128 0xf
+ 549 01aa 6900     		.ascii	"i\000"
+ 550 01ac 01       		.byte	0x1
+ 551 01ad 4F01     		.2byte	0x14f
+ 552 01af 83000000 		.4byte	0x83
+ 553 01b3 5B000000 		.4byte	.LLST2
+ 554 01b7 10       		.uleb128 0x10
+ 555 01b8 69000000 		.4byte	.LASF28
+ 556 01bc 01       		.byte	0x1
+ 557 01bd 5001     		.2byte	0x150
+ 558 01bf 83000000 		.4byte	0x83
+ 559 01c3 79000000 		.4byte	.LLST3
+ 560 01c7 10       		.uleb128 0x10
+ 561 01c8 D1000000 		.4byte	.LASF29
+ 562 01cc 01       		.byte	0x1
+ 563 01cd 5301     		.2byte	0x153
+ 564 01cf 5B010000 		.4byte	0x15b
+ 565 01d3 98000000 		.4byte	.LLST4
+ 566 01d7 10       		.uleb128 0x10
+ 567 01d8 CC000000 		.4byte	.LASF30
+ 568 01dc 01       		.byte	0x1
+ 569 01dd 5401     		.2byte	0x154
+ 570 01df BE000000 		.4byte	0xbe
+ 571 01e3 C1000000 		.4byte	.LLST5
+ 572 01e7 00       		.byte	0
+ 573 01e8 11       		.uleb128 0x11
+ 574 01e9 78000000 		.4byte	.LASF32
+ 575 01ed 01       		.byte	0x1
+ 576 01ee 3402     		.2byte	0x234
+ 577 01f0 83000000 		.4byte	0x83
+ 578 01f4 00000000 		.4byte	.LFB3
+ 579 01f8 80000000 		.4byte	.LFE3-.LFB3
+ARM GAS  C:\Users\Lenovo\AppData\Local\Temp\ccUVVWR9.s 			page 22
+
+
+ 580 01fc 01       		.uleb128 0x1
+ 581 01fd 9C       		.byte	0x9c
+ 582 01fe 61020000 		.4byte	0x261
+ 583 0202 0D       		.uleb128 0xd
+ 584 0203 AF000000 		.4byte	.LASF33
+ 585 0207 01       		.byte	0x1
+ 586 0208 3402     		.2byte	0x234
+ 587 020a 61020000 		.4byte	0x261
+ 588 020e 01010000 		.4byte	.LLST6
+ 589 0212 0D       		.uleb128 0xd
+ 590 0213 96000000 		.4byte	.LASF34
+ 591 0217 01       		.byte	0x1
+ 592 0218 3402     		.2byte	0x234
+ 593 021a 83000000 		.4byte	0x83
+ 594 021e 2D010000 		.4byte	.LLST7
+ 595 0222 0D       		.uleb128 0xd
+ 596 0223 33000000 		.4byte	.LASF26
+ 597 0227 01       		.byte	0x1
+ 598 0228 3402     		.2byte	0x234
+ 599 022a 83000000 		.4byte	0x83
+ 600 022e 59010000 		.4byte	.LLST8
+ 601 0232 10       		.uleb128 0x10
+ 602 0233 7B020000 		.4byte	.LASF35
+ 603 0237 01       		.byte	0x1
+ 604 0238 3602     		.2byte	0x236
+ 605 023a 8F000000 		.4byte	0x8f
+ 606 023e 78010000 		.4byte	.LLST9
+ 607 0242 10       		.uleb128 0x10
+ 608 0243 0E030000 		.4byte	.LASF36
+ 609 0247 01       		.byte	0x1
+ 610 0248 3702     		.2byte	0x237
+ 611 024a 8F000000 		.4byte	0x8f
+ 612 024e AC010000 		.4byte	.LLST10
+ 613 0252 0F       		.uleb128 0xf
+ 614 0253 6900     		.ascii	"i\000"
+ 615 0255 01       		.byte	0x1
+ 616 0256 3802     		.2byte	0x238
+ 617 0258 83000000 		.4byte	0x83
+ 618 025c D8010000 		.4byte	.LLST11
+ 619 0260 00       		.byte	0
+ 620 0261 0B       		.uleb128 0xb
+ 621 0262 04       		.byte	0x4
+ 622 0263 77000000 		.4byte	0x77
+ 623 0267 12       		.uleb128 0x12
+ 624 0268 03010000 		.4byte	.LASF37
+ 625 026c 01       		.byte	0x1
+ 626 026d 58       		.byte	0x58
+ 627 026e D4000000 		.4byte	0xd4
+ 628 0272 05       		.uleb128 0x5
+ 629 0273 03       		.byte	0x3
+ 630 0274 04000000 		.4byte	localMax
+ 631 0278 06       		.uleb128 0x6
+ 632 0279 BE000000 		.4byte	0xbe
+ 633 027d 8E020000 		.4byte	0x28e
+ 634 0281 07       		.uleb128 0x7
+ 635 0282 B7000000 		.4byte	0xb7
+ 636 0286 00       		.byte	0
+ARM GAS  C:\Users\Lenovo\AppData\Local\Temp\ccUVVWR9.s 			page 23
+
+
+ 637 0287 07       		.uleb128 0x7
+ 638 0288 B7000000 		.4byte	0xb7
+ 639 028c 02       		.byte	0x2
+ 640 028d 00       		.byte	0
+ 641 028e 12       		.uleb128 0x12
+ 642 028f F4000000 		.4byte	.LASF38
+ 643 0293 01       		.byte	0x1
+ 644 0294 59       		.byte	0x59
+ 645 0295 78020000 		.4byte	0x278
+ 646 0299 05       		.uleb128 0x5
+ 647 029a 03       		.byte	0x3
+ 648 029b 08000000 		.4byte	localDiffArray
+ 649 029f 12       		.uleb128 0x12
+ 650 02a0 F1010000 		.4byte	.LASF39
+ 651 02a4 01       		.byte	0x1
+ 652 02a5 5A       		.byte	0x5a
+ 653 02a6 6B000000 		.4byte	0x6b
+ 654 02aa 05       		.uleb128 0x5
+ 655 02ab 03       		.byte	0x3
+ 656 02ac 00000000 		.4byte	localMaxIndex
+ 657 02b0 00       		.byte	0
+ 658              		.section	.debug_abbrev,"",%progbits
+ 659              	.Ldebug_abbrev0:
+ 660 0000 01       		.uleb128 0x1
+ 661 0001 11       		.uleb128 0x11
+ 662 0002 01       		.byte	0x1
+ 663 0003 25       		.uleb128 0x25
+ 664 0004 0E       		.uleb128 0xe
+ 665 0005 13       		.uleb128 0x13
+ 666 0006 0B       		.uleb128 0xb
+ 667 0007 03       		.uleb128 0x3
+ 668 0008 0E       		.uleb128 0xe
+ 669 0009 1B       		.uleb128 0x1b
+ 670 000a 0E       		.uleb128 0xe
+ 671 000b 55       		.uleb128 0x55
+ 672 000c 17       		.uleb128 0x17
+ 673 000d 11       		.uleb128 0x11
+ 674 000e 01       		.uleb128 0x1
+ 675 000f 10       		.uleb128 0x10
+ 676 0010 17       		.uleb128 0x17
+ 677 0011 00       		.byte	0
+ 678 0012 00       		.byte	0
+ 679 0013 02       		.uleb128 0x2
+ 680 0014 24       		.uleb128 0x24
+ 681 0015 00       		.byte	0
+ 682 0016 0B       		.uleb128 0xb
+ 683 0017 0B       		.uleb128 0xb
+ 684 0018 3E       		.uleb128 0x3e
+ 685 0019 0B       		.uleb128 0xb
+ 686 001a 03       		.uleb128 0x3
+ 687 001b 0E       		.uleb128 0xe
+ 688 001c 00       		.byte	0
+ 689 001d 00       		.byte	0
+ 690 001e 03       		.uleb128 0x3
+ 691 001f 24       		.uleb128 0x24
+ 692 0020 00       		.byte	0
+ 693 0021 0B       		.uleb128 0xb
+ARM GAS  C:\Users\Lenovo\AppData\Local\Temp\ccUVVWR9.s 			page 24
+
+
+ 694 0022 0B       		.uleb128 0xb
+ 695 0023 3E       		.uleb128 0x3e
+ 696 0024 0B       		.uleb128 0xb
+ 697 0025 03       		.uleb128 0x3
+ 698 0026 08       		.uleb128 0x8
+ 699 0027 00       		.byte	0
+ 700 0028 00       		.byte	0
+ 701 0029 04       		.uleb128 0x4
+ 702 002a 16       		.uleb128 0x16
+ 703 002b 00       		.byte	0
+ 704 002c 03       		.uleb128 0x3
+ 705 002d 0E       		.uleb128 0xe
+ 706 002e 3A       		.uleb128 0x3a
+ 707 002f 0B       		.uleb128 0xb
+ 708 0030 3B       		.uleb128 0x3b
+ 709 0031 05       		.uleb128 0x5
+ 710 0032 49       		.uleb128 0x49
+ 711 0033 13       		.uleb128 0x13
+ 712 0034 00       		.byte	0
+ 713 0035 00       		.byte	0
+ 714 0036 05       		.uleb128 0x5
+ 715 0037 16       		.uleb128 0x16
+ 716 0038 00       		.byte	0
+ 717 0039 03       		.uleb128 0x3
+ 718 003a 0E       		.uleb128 0xe
+ 719 003b 3A       		.uleb128 0x3a
+ 720 003c 0B       		.uleb128 0xb
+ 721 003d 3B       		.uleb128 0x3b
+ 722 003e 0B       		.uleb128 0xb
+ 723 003f 49       		.uleb128 0x49
+ 724 0040 13       		.uleb128 0x13
+ 725 0041 00       		.byte	0
+ 726 0042 00       		.byte	0
+ 727 0043 06       		.uleb128 0x6
+ 728 0044 01       		.uleb128 0x1
+ 729 0045 01       		.byte	0x1
+ 730 0046 49       		.uleb128 0x49
+ 731 0047 13       		.uleb128 0x13
+ 732 0048 01       		.uleb128 0x1
+ 733 0049 13       		.uleb128 0x13
+ 734 004a 00       		.byte	0
+ 735 004b 00       		.byte	0
+ 736 004c 07       		.uleb128 0x7
+ 737 004d 21       		.uleb128 0x21
+ 738 004e 00       		.byte	0
+ 739 004f 49       		.uleb128 0x49
+ 740 0050 13       		.uleb128 0x13
+ 741 0051 2F       		.uleb128 0x2f
+ 742 0052 0B       		.uleb128 0xb
+ 743 0053 00       		.byte	0
+ 744 0054 00       		.byte	0
+ 745 0055 08       		.uleb128 0x8
+ 746 0056 13       		.uleb128 0x13
+ 747 0057 01       		.byte	0x1
+ 748 0058 0B       		.uleb128 0xb
+ 749 0059 0B       		.uleb128 0xb
+ 750 005a 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\Lenovo\AppData\Local\Temp\ccUVVWR9.s 			page 25
+
+
+ 751 005b 0B       		.uleb128 0xb
+ 752 005c 3B       		.uleb128 0x3b
+ 753 005d 05       		.uleb128 0x5
+ 754 005e 01       		.uleb128 0x1
+ 755 005f 13       		.uleb128 0x13
+ 756 0060 00       		.byte	0
+ 757 0061 00       		.byte	0
+ 758 0062 09       		.uleb128 0x9
+ 759 0063 0D       		.uleb128 0xd
+ 760 0064 00       		.byte	0
+ 761 0065 03       		.uleb128 0x3
+ 762 0066 08       		.uleb128 0x8
+ 763 0067 3A       		.uleb128 0x3a
+ 764 0068 0B       		.uleb128 0xb
+ 765 0069 3B       		.uleb128 0x3b
+ 766 006a 05       		.uleb128 0x5
+ 767 006b 49       		.uleb128 0x49
+ 768 006c 13       		.uleb128 0x13
+ 769 006d 38       		.uleb128 0x38
+ 770 006e 0B       		.uleb128 0xb
+ 771 006f 00       		.byte	0
+ 772 0070 00       		.byte	0
+ 773 0071 0A       		.uleb128 0xa
+ 774 0072 0D       		.uleb128 0xd
+ 775 0073 00       		.byte	0
+ 776 0074 03       		.uleb128 0x3
+ 777 0075 0E       		.uleb128 0xe
+ 778 0076 3A       		.uleb128 0x3a
+ 779 0077 0B       		.uleb128 0xb
+ 780 0078 3B       		.uleb128 0x3b
+ 781 0079 05       		.uleb128 0x5
+ 782 007a 49       		.uleb128 0x49
+ 783 007b 13       		.uleb128 0x13
+ 784 007c 38       		.uleb128 0x38
+ 785 007d 0B       		.uleb128 0xb
+ 786 007e 00       		.byte	0
+ 787 007f 00       		.byte	0
+ 788 0080 0B       		.uleb128 0xb
+ 789 0081 0F       		.uleb128 0xf
+ 790 0082 00       		.byte	0
+ 791 0083 0B       		.uleb128 0xb
+ 792 0084 0B       		.uleb128 0xb
+ 793 0085 49       		.uleb128 0x49
+ 794 0086 13       		.uleb128 0x13
+ 795 0087 00       		.byte	0
+ 796 0088 00       		.byte	0
+ 797 0089 0C       		.uleb128 0xc
+ 798 008a 2E       		.uleb128 0x2e
+ 799 008b 01       		.byte	0x1
+ 800 008c 3F       		.uleb128 0x3f
+ 801 008d 19       		.uleb128 0x19
+ 802 008e 03       		.uleb128 0x3
+ 803 008f 0E       		.uleb128 0xe
+ 804 0090 3A       		.uleb128 0x3a
+ 805 0091 0B       		.uleb128 0xb
+ 806 0092 3B       		.uleb128 0x3b
+ 807 0093 05       		.uleb128 0x5
+ARM GAS  C:\Users\Lenovo\AppData\Local\Temp\ccUVVWR9.s 			page 26
+
+
+ 808 0094 27       		.uleb128 0x27
+ 809 0095 19       		.uleb128 0x19
+ 810 0096 49       		.uleb128 0x49
+ 811 0097 13       		.uleb128 0x13
+ 812 0098 11       		.uleb128 0x11
+ 813 0099 01       		.uleb128 0x1
+ 814 009a 12       		.uleb128 0x12
+ 815 009b 06       		.uleb128 0x6
+ 816 009c 40       		.uleb128 0x40
+ 817 009d 18       		.uleb128 0x18
+ 818 009e 9742     		.uleb128 0x2117
+ 819 00a0 19       		.uleb128 0x19
+ 820 00a1 01       		.uleb128 0x1
+ 821 00a2 13       		.uleb128 0x13
+ 822 00a3 00       		.byte	0
+ 823 00a4 00       		.byte	0
+ 824 00a5 0D       		.uleb128 0xd
+ 825 00a6 05       		.uleb128 0x5
+ 826 00a7 00       		.byte	0
+ 827 00a8 03       		.uleb128 0x3
+ 828 00a9 0E       		.uleb128 0xe
+ 829 00aa 3A       		.uleb128 0x3a
+ 830 00ab 0B       		.uleb128 0xb
+ 831 00ac 3B       		.uleb128 0x3b
+ 832 00ad 05       		.uleb128 0x5
+ 833 00ae 49       		.uleb128 0x49
+ 834 00af 13       		.uleb128 0x13
+ 835 00b0 02       		.uleb128 0x2
+ 836 00b1 17       		.uleb128 0x17
+ 837 00b2 00       		.byte	0
+ 838 00b3 00       		.byte	0
+ 839 00b4 0E       		.uleb128 0xe
+ 840 00b5 05       		.uleb128 0x5
+ 841 00b6 00       		.byte	0
+ 842 00b7 03       		.uleb128 0x3
+ 843 00b8 0E       		.uleb128 0xe
+ 844 00b9 3A       		.uleb128 0x3a
+ 845 00ba 0B       		.uleb128 0xb
+ 846 00bb 3B       		.uleb128 0x3b
+ 847 00bc 05       		.uleb128 0x5
+ 848 00bd 49       		.uleb128 0x49
+ 849 00be 13       		.uleb128 0x13
+ 850 00bf 02       		.uleb128 0x2
+ 851 00c0 18       		.uleb128 0x18
+ 852 00c1 00       		.byte	0
+ 853 00c2 00       		.byte	0
+ 854 00c3 0F       		.uleb128 0xf
+ 855 00c4 34       		.uleb128 0x34
+ 856 00c5 00       		.byte	0
+ 857 00c6 03       		.uleb128 0x3
+ 858 00c7 08       		.uleb128 0x8
+ 859 00c8 3A       		.uleb128 0x3a
+ 860 00c9 0B       		.uleb128 0xb
+ 861 00ca 3B       		.uleb128 0x3b
+ 862 00cb 05       		.uleb128 0x5
+ 863 00cc 49       		.uleb128 0x49
+ 864 00cd 13       		.uleb128 0x13
+ARM GAS  C:\Users\Lenovo\AppData\Local\Temp\ccUVVWR9.s 			page 27
+
+
+ 865 00ce 02       		.uleb128 0x2
+ 866 00cf 17       		.uleb128 0x17
+ 867 00d0 00       		.byte	0
+ 868 00d1 00       		.byte	0
+ 869 00d2 10       		.uleb128 0x10
+ 870 00d3 34       		.uleb128 0x34
+ 871 00d4 00       		.byte	0
+ 872 00d5 03       		.uleb128 0x3
+ 873 00d6 0E       		.uleb128 0xe
+ 874 00d7 3A       		.uleb128 0x3a
+ 875 00d8 0B       		.uleb128 0xb
+ 876 00d9 3B       		.uleb128 0x3b
+ 877 00da 05       		.uleb128 0x5
+ 878 00db 49       		.uleb128 0x49
+ 879 00dc 13       		.uleb128 0x13
+ 880 00dd 02       		.uleb128 0x2
+ 881 00de 17       		.uleb128 0x17
+ 882 00df 00       		.byte	0
+ 883 00e0 00       		.byte	0
+ 884 00e1 11       		.uleb128 0x11
+ 885 00e2 2E       		.uleb128 0x2e
+ 886 00e3 01       		.byte	0x1
+ 887 00e4 3F       		.uleb128 0x3f
+ 888 00e5 19       		.uleb128 0x19
+ 889 00e6 03       		.uleb128 0x3
+ 890 00e7 0E       		.uleb128 0xe
+ 891 00e8 3A       		.uleb128 0x3a
+ 892 00e9 0B       		.uleb128 0xb
+ 893 00ea 3B       		.uleb128 0x3b
+ 894 00eb 05       		.uleb128 0x5
+ 895 00ec 27       		.uleb128 0x27
+ 896 00ed 19       		.uleb128 0x19
+ 897 00ee 49       		.uleb128 0x49
+ 898 00ef 13       		.uleb128 0x13
+ 899 00f0 11       		.uleb128 0x11
+ 900 00f1 01       		.uleb128 0x1
+ 901 00f2 12       		.uleb128 0x12
+ 902 00f3 06       		.uleb128 0x6
+ 903 00f4 40       		.uleb128 0x40
+ 904 00f5 18       		.uleb128 0x18
+ 905 00f6 9642     		.uleb128 0x2116
+ 906 00f8 19       		.uleb128 0x19
+ 907 00f9 01       		.uleb128 0x1
+ 908 00fa 13       		.uleb128 0x13
+ 909 00fb 00       		.byte	0
+ 910 00fc 00       		.byte	0
+ 911 00fd 12       		.uleb128 0x12
+ 912 00fe 34       		.uleb128 0x34
+ 913 00ff 00       		.byte	0
+ 914 0100 03       		.uleb128 0x3
+ 915 0101 0E       		.uleb128 0xe
+ 916 0102 3A       		.uleb128 0x3a
+ 917 0103 0B       		.uleb128 0xb
+ 918 0104 3B       		.uleb128 0x3b
+ 919 0105 0B       		.uleb128 0xb
+ 920 0106 49       		.uleb128 0x49
+ 921 0107 13       		.uleb128 0x13
+ARM GAS  C:\Users\Lenovo\AppData\Local\Temp\ccUVVWR9.s 			page 28
+
+
+ 922 0108 02       		.uleb128 0x2
+ 923 0109 18       		.uleb128 0x18
+ 924 010a 00       		.byte	0
+ 925 010b 00       		.byte	0
+ 926 010c 00       		.byte	0
+ 927              		.section	.debug_loc,"",%progbits
+ 928              	.Ldebug_loc0:
+ 929              	.LLST0:
+ 930 0000 00000000 		.4byte	.LVL0
+ 931 0004 CE000000 		.4byte	.LVL15
+ 932 0008 0100     		.2byte	0x1
+ 933 000a 50       		.byte	0x50
+ 934 000b CE000000 		.4byte	.LVL15
+ 935 000f D4000000 		.4byte	.LFE2
+ 936 0013 0400     		.2byte	0x4
+ 937 0015 F3       		.byte	0xf3
+ 938 0016 01       		.uleb128 0x1
+ 939 0017 50       		.byte	0x50
+ 940 0018 9F       		.byte	0x9f
+ 941 0019 00000000 		.4byte	0
+ 942 001d 00000000 		.4byte	0
+ 943              	.LLST1:
+ 944 0021 00000000 		.4byte	.LVL0
+ 945 0025 36000000 		.4byte	.LVL10
+ 946 0029 0100     		.2byte	0x1
+ 947 002b 52       		.byte	0x52
+ 948 002c 36000000 		.4byte	.LVL10
+ 949 0030 C0000000 		.4byte	.LVL12
+ 950 0034 0400     		.2byte	0x4
+ 951 0036 F3       		.byte	0xf3
+ 952 0037 01       		.uleb128 0x1
+ 953 0038 52       		.byte	0x52
+ 954 0039 9F       		.byte	0x9f
+ 955 003a C0000000 		.4byte	.LVL12
+ 956 003e C2000000 		.4byte	.LVL13
+ 957 0042 0100     		.2byte	0x1
+ 958 0044 52       		.byte	0x52
+ 959 0045 C2000000 		.4byte	.LVL13
+ 960 0049 D4000000 		.4byte	.LFE2
+ 961 004d 0400     		.2byte	0x4
+ 962 004f F3       		.byte	0xf3
+ 963 0050 01       		.uleb128 0x1
+ 964 0051 52       		.byte	0x52
+ 965 0052 9F       		.byte	0x9f
+ 966 0053 00000000 		.4byte	0
+ 967 0057 00000000 		.4byte	0
+ 968              	.LLST2:
+ 969 005b 36000000 		.4byte	.LVL10
+ 970 005f C0000000 		.4byte	.LVL12
+ 971 0063 0100     		.2byte	0x1
+ 972 0065 52       		.byte	0x52
+ 973 0066 C2000000 		.4byte	.LVL13
+ 974 006a CA000000 		.4byte	.LVL14
+ 975 006e 0100     		.2byte	0x1
+ 976 0070 52       		.byte	0x52
+ 977 0071 00000000 		.4byte	0
+ 978 0075 00000000 		.4byte	0
+ARM GAS  C:\Users\Lenovo\AppData\Local\Temp\ccUVVWR9.s 			page 29
+
+
+ 979              	.LLST3:
+ 980 0079 08000000 		.4byte	.LVL2
+ 981 007d 10000000 		.4byte	.LVL3
+ 982 0081 0200     		.2byte	0x2
+ 983 0083 30       		.byte	0x30
+ 984 0084 9F       		.byte	0x9f
+ 985 0085 10000000 		.4byte	.LVL3
+ 986 0089 2E000000 		.4byte	.LVL9
+ 987 008d 0100     		.2byte	0x1
+ 988 008f 53       		.byte	0x53
+ 989 0090 00000000 		.4byte	0
+ 990 0094 00000000 		.4byte	0
+ 991              	.LLST4:
+ 992 0098 02000000 		.4byte	.LVL1
+ 993 009c 10000000 		.4byte	.LVL3
+ 994 00a0 0100     		.2byte	0x1
+ 995 00a2 50       		.byte	0x50
+ 996 00a3 10000000 		.4byte	.LVL3
+ 997 00a7 36000000 		.4byte	.LVL10
+ 998 00ab 0100     		.2byte	0x1
+ 999 00ad 54       		.byte	0x54
+ 1000 00ae C0000000 		.4byte	.LVL12
+ 1001 00b2 C2000000 		.4byte	.LVL13
+ 1002 00b6 0100     		.2byte	0x1
+ 1003 00b8 54       		.byte	0x54
+ 1004 00b9 00000000 		.4byte	0
+ 1005 00bd 00000000 		.4byte	0
+ 1006              	.LLST5:
+ 1007 00c1 02000000 		.4byte	.LVL1
+ 1008 00c5 10000000 		.4byte	.LVL3
+ 1009 00c9 0200     		.2byte	0x2
+ 1010 00cb 30       		.byte	0x30
+ 1011 00cc 9F       		.byte	0x9f
+ 1012 00cd 10000000 		.4byte	.LVL3
+ 1013 00d1 1C000000 		.4byte	.LVL4
+ 1014 00d5 0100     		.2byte	0x1
+ 1015 00d7 56       		.byte	0x56
+ 1016 00d8 1E000000 		.4byte	.LVL5
+ 1017 00dc 24000000 		.4byte	.LVL6
+ 1018 00e0 0100     		.2byte	0x1
+ 1019 00e2 55       		.byte	0x55
+ 1020 00e3 24000000 		.4byte	.LVL6
+ 1021 00e7 36000000 		.4byte	.LVL10
+ 1022 00eb 0100     		.2byte	0x1
+ 1023 00ed 56       		.byte	0x56
+ 1024 00ee C0000000 		.4byte	.LVL12
+ 1025 00f2 C2000000 		.4byte	.LVL13
+ 1026 00f6 0100     		.2byte	0x1
+ 1027 00f8 56       		.byte	0x56
+ 1028 00f9 00000000 		.4byte	0
+ 1029 00fd 00000000 		.4byte	0
+ 1030              	.LLST6:
+ 1031 0101 00000000 		.4byte	.LVL16
+ 1032 0105 12000000 		.4byte	.LVL18
+ 1033 0109 0100     		.2byte	0x1
+ 1034 010b 50       		.byte	0x50
+ 1035 010c 12000000 		.4byte	.LVL18
+ARM GAS  C:\Users\Lenovo\AppData\Local\Temp\ccUVVWR9.s 			page 30
+
+
+ 1036 0110 76000000 		.4byte	.LVL29
+ 1037 0114 0100     		.2byte	0x1
+ 1038 0116 58       		.byte	0x58
+ 1039 0117 76000000 		.4byte	.LVL29
+ 1040 011b 80000000 		.4byte	.LFE3
+ 1041 011f 0400     		.2byte	0x4
+ 1042 0121 F3       		.byte	0xf3
+ 1043 0122 01       		.uleb128 0x1
+ 1044 0123 50       		.byte	0x50
+ 1045 0124 9F       		.byte	0x9f
+ 1046 0125 00000000 		.4byte	0
+ 1047 0129 00000000 		.4byte	0
+ 1048              	.LLST7:
+ 1049 012d 00000000 		.4byte	.LVL16
+ 1050 0131 12000000 		.4byte	.LVL18
+ 1051 0135 0100     		.2byte	0x1
+ 1052 0137 51       		.byte	0x51
+ 1053 0138 12000000 		.4byte	.LVL18
+ 1054 013c 76000000 		.4byte	.LVL28
+ 1055 0140 0100     		.2byte	0x1
+ 1056 0142 57       		.byte	0x57
+ 1057 0143 76000000 		.4byte	.LVL28
+ 1058 0147 80000000 		.4byte	.LFE3
+ 1059 014b 0400     		.2byte	0x4
+ 1060 014d F3       		.byte	0xf3
+ 1061 014e 01       		.uleb128 0x1
+ 1062 014f 51       		.byte	0x51
+ 1063 0150 9F       		.byte	0x9f
+ 1064 0151 00000000 		.4byte	0
+ 1065 0155 00000000 		.4byte	0
+ 1066              	.LLST8:
+ 1067 0159 00000000 		.4byte	.LVL16
+ 1068 015d 12000000 		.4byte	.LVL18
+ 1069 0161 0100     		.2byte	0x1
+ 1070 0163 52       		.byte	0x52
+ 1071 0164 12000000 		.4byte	.LVL18
+ 1072 0168 80000000 		.4byte	.LFE3
+ 1073 016c 0200     		.2byte	0x2
+ 1074 016e 91       		.byte	0x91
+ 1075 016f 64       		.sleb128 -28
+ 1076 0170 00000000 		.4byte	0
+ 1077 0174 00000000 		.4byte	0
+ 1078              	.LLST9:
+ 1079 0178 52000000 		.4byte	.LVL19
+ 1080 017c 5A000000 		.4byte	.LVL21
+ 1081 0180 0100     		.2byte	0x1
+ 1082 0182 50       		.byte	0x50
+ 1083 0183 5A000000 		.4byte	.LVL21
+ 1084 0187 5D000000 		.4byte	.LVL22-1
+ 1085 018b 1700     		.2byte	0x17
+ 1086 018d 72       		.byte	0x72
+ 1087 018e 00       		.sleb128 0
+ 1088 018f 75       		.byte	0x75
+ 1089 0190 00       		.sleb128 0
+ 1090 0191 76       		.byte	0x76
+ 1091 0192 00       		.sleb128 0
+ 1092 0193 22       		.byte	0x22
+ARM GAS  C:\Users\Lenovo\AppData\Local\Temp\ccUVVWR9.s 			page 31
+
+
+ 1093 0194 31       		.byte	0x31
+ 1094 0195 24       		.byte	0x24
+ 1095 0196 03       		.byte	0x3
+ 1096 0197 08000000 		.4byte	.LANCHOR0+8
+ 1097 019b 22       		.byte	0x22
+ 1098 019c 94       		.byte	0x94
+ 1099 019d 02       		.byte	0x2
+ 1100 019e 0A       		.byte	0xa
+ 1101 019f FFFF     		.2byte	0xffff
+ 1102 01a1 1A       		.byte	0x1a
+ 1103 01a2 1C       		.byte	0x1c
+ 1104 01a3 9F       		.byte	0x9f
+ 1105 01a4 00000000 		.4byte	0
+ 1106 01a8 00000000 		.4byte	0
+ 1107              	.LLST10:
+ 1108 01ac 58000000 		.4byte	.LVL20
+ 1109 01b0 5D000000 		.4byte	.LVL22-1
+ 1110 01b4 0100     		.2byte	0x1
+ 1111 01b6 51       		.byte	0x51
+ 1112 01b7 62000000 		.4byte	.LVL23
+ 1113 01bb 64000000 		.4byte	.LVL24
+ 1114 01bf 0100     		.2byte	0x1
+ 1115 01c1 50       		.byte	0x50
+ 1116 01c2 64000000 		.4byte	.LVL24
+ 1117 01c6 66000000 		.4byte	.LVL25
+ 1118 01ca 0400     		.2byte	0x4
+ 1119 01cc 70       		.byte	0x70
+ 1120 01cd 817F     		.sleb128 -127
+ 1121 01cf 9F       		.byte	0x9f
+ 1122 01d0 00000000 		.4byte	0
+ 1123 01d4 00000000 		.4byte	0
+ 1124              	.LLST11:
+ 1125 01d8 0E000000 		.4byte	.LVL17
+ 1126 01dc 12000000 		.4byte	.LVL18
+ 1127 01e0 0200     		.2byte	0x2
+ 1128 01e2 30       		.byte	0x30
+ 1129 01e3 9F       		.byte	0x9f
+ 1130 01e4 12000000 		.4byte	.LVL18
+ 1131 01e8 76000000 		.4byte	.LVL27
+ 1132 01ec 0100     		.2byte	0x1
+ 1133 01ee 56       		.byte	0x56
+ 1134 01ef 00000000 		.4byte	0
+ 1135 01f3 00000000 		.4byte	0
+ 1136              		.section	.debug_aranges,"",%progbits
+ 1137 0000 24000000 		.4byte	0x24
+ 1138 0004 0200     		.2byte	0x2
+ 1139 0006 00000000 		.4byte	.Ldebug_info0
+ 1140 000a 04       		.byte	0x4
+ 1141 000b 00       		.byte	0
+ 1142 000c 0000     		.2byte	0
+ 1143 000e 0000     		.2byte	0
+ 1144 0010 00000000 		.4byte	.LFB2
+ 1145 0014 D4000000 		.4byte	.LFE2-.LFB2
+ 1146 0018 00000000 		.4byte	.LFB3
+ 1147 001c 80000000 		.4byte	.LFE3-.LFB3
+ 1148 0020 00000000 		.4byte	0
+ 1149 0024 00000000 		.4byte	0
+ARM GAS  C:\Users\Lenovo\AppData\Local\Temp\ccUVVWR9.s 			page 32
+
+
+ 1150              		.section	.debug_ranges,"",%progbits
+ 1151              	.Ldebug_ranges0:
+ 1152 0000 00000000 		.4byte	.LFB2
+ 1153 0004 D4000000 		.4byte	.LFE2
+ 1154 0008 00000000 		.4byte	.LFB3
+ 1155 000c 80000000 		.4byte	.LFE3
+ 1156 0010 00000000 		.4byte	0
+ 1157 0014 00000000 		.4byte	0
+ 1158              		.section	.debug_line,"",%progbits
+ 1159              	.Ldebug_line0:
+ 1160 0000 30010000 		.section	.debug_str,"MS",%progbits,1
+ 1160      02008500 
+ 1160      00000201 
+ 1160      FB0E0D00 
+ 1160      01010101 
+ 1161              	.LASF18:
+ 1162 0000 43617053 		.ascii	"CapSense_THRESHOLD_TYPE\000"
+ 1162      656E7365 
+ 1162      5F544852 
+ 1162      4553484F 
+ 1162      4C445F54 
+ 1163              	.LASF21:
+ 1164 0018 62736C6E 		.ascii	"bslnExt\000"
+ 1164      45787400 
+ 1165              	.LASF3:
+ 1166 0020 73686F72 		.ascii	"short unsigned int\000"
+ 1166      7420756E 
+ 1166      7369676E 
+ 1166      65642069 
+ 1166      6E7400
+ 1167              	.LASF26:
+ 1168 0033 736E7343 		.ascii	"snsCount\000"
+ 1168      6F756E74 
+ 1168      00
+ 1169              	.LASF13:
+ 1170 003c 666C6F61 		.ascii	"float\000"
+ 1170      7400
+ 1171              	.LASF1:
+ 1172 0042 756E7369 		.ascii	"unsigned char\000"
+ 1172      676E6564 
+ 1172      20636861 
+ 1172      7200
+ 1173              	.LASF25:
+ 1174 0050 70747253 		.ascii	"ptrSns\000"
+ 1174      6E7300
+ 1175              	.LASF5:
+ 1176 0057 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1176      20756E73 
+ 1176      69676E65 
+ 1176      6420696E 
+ 1176      7400
+ 1177              	.LASF28:
+ 1178 0069 73656E73 		.ascii	"sensorId\000"
+ 1178      6F724964 
+ 1178      00
+ 1179              	.LASF12:
+ 1180 0072 696E7433 		.ascii	"int32\000"
+ARM GAS  C:\Users\Lenovo\AppData\Local\Temp\ccUVVWR9.s 			page 33
+
+
+ 1180      3200
+ 1181              	.LASF32:
+ 1182 0078 43617053 		.ascii	"CapSense_DpCalcLinearCentroid\000"
+ 1182      656E7365 
+ 1182      5F447043 
+ 1182      616C634C 
+ 1182      696E6561 
+ 1183              	.LASF34:
+ 1184 0096 6D756C74 		.ascii	"multiplier\000"
+ 1184      69706C69 
+ 1184      657200
+ 1185              	.LASF14:
+ 1186 00a1 646F7562 		.ascii	"double\000"
+ 1186      6C6500
+ 1187              	.LASF10:
+ 1188 00a8 75696E74 		.ascii	"uint16\000"
+ 1188      313600
+ 1189              	.LASF33:
+ 1190 00af 706F7369 		.ascii	"position\000"
+ 1190      74696F6E 
+ 1190      00
+ 1191              	.LASF11:
+ 1192 00b8 75696E74 		.ascii	"uint32\000"
+ 1192      333200
+ 1193              	.LASF8:
+ 1194 00bf 756E7369 		.ascii	"unsigned int\000"
+ 1194      676E6564 
+ 1194      20696E74 
+ 1194      00
+ 1195              	.LASF30:
+ 1196 00cc 74656D70 		.ascii	"temp\000"
+ 1196      00
+ 1197              	.LASF29:
+ 1198 00d1 6C6F6361 		.ascii	"localPtrSns\000"
+ 1198      6C507472 
+ 1198      536E7300 
+ 1199              	.LASF7:
+ 1200 00dd 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1200      206C6F6E 
+ 1200      6720756E 
+ 1200      7369676E 
+ 1200      65642069 
+ 1201              	.LASF38:
+ 1202 00f4 6C6F6361 		.ascii	"localDiffArray\000"
+ 1202      6C446966 
+ 1202      66417272 
+ 1202      617900
+ 1203              	.LASF37:
+ 1204 0103 6C6F6361 		.ascii	"localMax\000"
+ 1204      6C4D6178 
+ 1204      00
+ 1205              	.LASF23:
+ 1206 010c 6E656742 		.ascii	"negBslnRstCnt\000"
+ 1206      736C6E52 
+ 1206      7374436E 
+ 1206      7400
+ 1207              	.LASF40:
+ARM GAS  C:\Users\Lenovo\AppData\Local\Temp\ccUVVWR9.s 			page 34
+
+
+ 1208 011a 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 1208      43313120 
+ 1208      352E342E 
+ 1208      31203230 
+ 1208      31363036 
+ 1209 014d 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m0 -mthumb -g -O"
+ 1209      20726576 
+ 1209      6973696F 
+ 1209      6E203233 
+ 1209      37373135 
+ 1210 0180 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 1210      66756E63 
+ 1210      74696F6E 
+ 1210      2D736563 
+ 1210      74696F6E 
+ 1211              	.LASF17:
+ 1212 01a8 73697A65 		.ascii	"sizetype\000"
+ 1212      74797065 
+ 1212      00
+ 1213              	.LASF22:
+ 1214 01b1 64696666 		.ascii	"diff\000"
+ 1214      00
+ 1215              	.LASF6:
+ 1216 01b6 6C6F6E67 		.ascii	"long long int\000"
+ 1216      206C6F6E 
+ 1216      6720696E 
+ 1216      7400
+ 1217              	.LASF24:
+ 1218 01c4 43617053 		.ascii	"CapSense_RAM_SNS_STRUCT\000"
+ 1218      656E7365 
+ 1218      5F52414D 
+ 1218      5F534E53 
+ 1218      5F535452 
+ 1219              	.LASF15:
+ 1220 01dc 63686172 		.ascii	"char\000"
+ 1220      00
+ 1221              	.LASF27:
+ 1222 01e1 66696E67 		.ascii	"fingerThreshold\000"
+ 1222      65725468 
+ 1222      72657368 
+ 1222      6F6C6400 
+ 1223              	.LASF39:
+ 1224 01f1 6C6F6361 		.ascii	"localMaxIndex\000"
+ 1224      6C4D6178 
+ 1224      496E6465 
+ 1224      7800
+ 1225              	.LASF2:
+ 1226 01ff 73686F72 		.ascii	"short int\000"
+ 1226      7420696E 
+ 1226      7400
+ 1227              	.LASF9:
+ 1228 0209 75696E74 		.ascii	"uint8\000"
+ 1228      3800
+ 1229              	.LASF42:
+ 1230 020f 443A5C55 		.ascii	"D:\\UCU\\POC\\PSoC_Projects_Embedded\\PSoC_LAB4\\la"
+ 1230      43555C50 
+ 1230      4F435C50 
+ARM GAS  C:\Users\Lenovo\AppData\Local\Temp\ccUVVWR9.s 			page 35
+
+
+ 1230      536F435F 
+ 1230      50726F6A 
+ 1231 023d 62362D70 		.ascii	"b6-psoc-3-shevchuk-lykhanskyi\\Lab_4_1_BLE_Automati"
+ 1231      736F632D 
+ 1231      332D7368 
+ 1231      65766368 
+ 1231      756B2D6C 
+ 1232 026f 6F6E5F49 		.ascii	"on_IO.cydsn\000"
+ 1232      4F2E6379 
+ 1232      64736E00 
+ 1233              	.LASF35:
+ 1234 027b 6E756D65 		.ascii	"numerator\000"
+ 1234      7261746F 
+ 1234      7200
+ 1235              	.LASF4:
+ 1236 0285 6C6F6E67 		.ascii	"long int\000"
+ 1236      20696E74 
+ 1236      00
+ 1237              	.LASF16:
+ 1238 028e 6C6F6E67 		.ascii	"long double\000"
+ 1238      20646F75 
+ 1238      626C6500 
+ 1239              	.LASF0:
+ 1240 029a 7369676E 		.ascii	"signed char\000"
+ 1240      65642063 
+ 1240      68617200 
+ 1241              	.LASF31:
+ 1242 02a6 43617053 		.ascii	"CapSense_DpFindLocalMaxSd\000"
+ 1242      656E7365 
+ 1242      5F447046 
+ 1242      696E644C 
+ 1242      6F63616C 
+ 1243              	.LASF41:
+ 1244 02c0 47656E65 		.ascii	"Generated_Source\\PSoC4\\CapSense_Centroid_LL.c\000"
+ 1244      72617465 
+ 1244      645F536F 
+ 1244      75726365 
+ 1244      5C50536F 
+ 1245              	.LASF20:
+ 1246 02ee 62736C6E 		.ascii	"bsln\000"
+ 1246      00
+ 1247              	.LASF19:
+ 1248 02f3 43617053 		.ascii	"CapSense_LOW_BSLN_RST_TYPE\000"
+ 1248      656E7365 
+ 1248      5F4C4F57 
+ 1248      5F42534C 
+ 1248      4E5F5253 
+ 1249              	.LASF36:
+ 1250 030e 64656E6F 		.ascii	"denominator\000"
+ 1250      6D696E61 
+ 1250      746F7200 
+ 1251              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran
